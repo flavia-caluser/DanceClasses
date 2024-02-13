@@ -35,13 +35,6 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, Set<Course> courses, List<LocalDateTime> attendences, List<Payment> payments, List<Review> reviews) {
-        this.name = name;
-        this.courses = courses;
-        this.attendences = attendences;
-        this.payments = payments;
-        this.reviews = reviews;
-    }
 
     public Long getId() {
         return id;

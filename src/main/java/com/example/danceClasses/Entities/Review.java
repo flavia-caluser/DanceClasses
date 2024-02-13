@@ -27,12 +27,6 @@ public class Review {
     public Review() {
     }
 
-    public Review(String comment, Student student, Course course) {
-        this.comment = comment;
-        this.student = student;
-        this.course = course;
-    }
-
     public Long getId() {
         return id;
     }

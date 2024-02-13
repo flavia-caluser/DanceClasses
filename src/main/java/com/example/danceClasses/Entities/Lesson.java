@@ -27,11 +27,6 @@ public class Lesson {
     public Lesson() {
     }
 
-    public Lesson(String name, LocalDate date, Course course) {
-        this.name = name;
-        this.date = date;
-        this.course = course;
-    }
 
     public Long getId() {
         return id;

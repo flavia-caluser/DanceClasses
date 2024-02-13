@@ -34,12 +34,6 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(LocalDate date, PaymentMethod method, Student student, Course course) {
-        this.date = date;
-        this.method = method;
-        this.student = student;
-        this.course = course;
-    }
 
     public Long getId() {
         return id;

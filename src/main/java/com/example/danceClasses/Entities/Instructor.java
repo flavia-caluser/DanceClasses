@@ -15,13 +15,9 @@ public class Instructor {
 
     @Column
     private String name;
-    @ManyToMany(mappedBy = "Instructori")
+    @ManyToMany(mappedBy = "instructors")
     private Set<Course> courses;
 
-    public Instructor(String name, Set<Course> courses) {
-        this.name = name;
-        this.courses = courses;
-    }
 
     public Instructor() {
     }

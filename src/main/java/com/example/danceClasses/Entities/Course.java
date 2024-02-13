@@ -44,14 +44,6 @@ public class Course {
     public Course() {
     }
 
-    public Course(String name, Set<Instructor> instructors, Set<Student> students, Set<Lesson> lessons, List<Review> reviews) {
-        this.name = name;
-        this.instructors = instructors;
-        this.students = students;
-        this.lessons = lessons;
-        this.reviews = reviews;
-    }
-
     public Long getId() {
         return id;
     }
