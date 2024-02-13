@@ -99,4 +99,16 @@ public class Course {
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", instructors=" + instructors +
+                ", students=" + students +
+                ", lessons=" + lessons +
+                ", reviews=" + reviews +
+                '}';
+    }
 }
