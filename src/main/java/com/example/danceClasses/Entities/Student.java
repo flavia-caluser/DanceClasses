@@ -3,6 +3,7 @@ package com.example.danceClasses.Entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -18,11 +19,13 @@ public class Student {
     @Column
     private String name;
 
-    @ManyToMany(mappedBy = "students")
-    private Set<Course> courses;
-
     @ElementCollection
     private List<LocalDateTime> attendences;
+
+    private LocalDate birthDate;
+
+    @ManyToMany(mappedBy = "students")
+    private Set<Course> courses;
 
     @OneToMany(mappedBy = "student",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("payment-student")
