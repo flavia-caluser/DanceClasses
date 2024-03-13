@@ -22,6 +22,7 @@ public class Student {
     @ElementCollection
     private List<LocalDateTime> attendences;
 
+    @Column
     private LocalDate birthDate;
 
     @ManyToMany(mappedBy = "students")
@@ -87,16 +88,24 @@ public class Student {
         this.reviews = reviews;
     }
 
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", courses=" + courses +
                 ", attendences=" + attendences +
+                ", birthDate=" + birthDate +
+                ", courses=" + courses +
                 ", payments=" + payments +
                 ", reviews=" + reviews +
                 '}';
     }
-
 }
