@@ -20,7 +20,7 @@ public class Student {
     private String name;
 
     @ElementCollection
-    private List<LocalDateTime> attendences;
+    private Set<LocalDateTime> attendences;
 
     @Column
     private LocalDate birthDate;
@@ -30,7 +30,7 @@ public class Student {
 
     @OneToMany(mappedBy = "student",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("payment-student")
-    private List<Payment> payments;
+    private Set<Payment> payments;
 
     @OneToMany(mappedBy = "student",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("review-student")
@@ -64,19 +64,19 @@ public class Student {
         this.courses = courses;
     }
 
-    public List<LocalDateTime> getAttendences() {
+    public Set<LocalDateTime> getAttendences() {
         return attendences;
     }
 
-    public void setAttendences(List<LocalDateTime> attendences) {
+    public void setAttendences(Set<LocalDateTime> attendences) {
         this.attendences = attendences;
     }
 
-    public List<Payment> getPayments() {
+    public Set<Payment> getPayments() {
         return payments;
     }
 
-    public void setPayments(List<Payment> payments) {
+    public void setPayments(Set<Payment> payments) {
         this.payments = payments;
     }
 

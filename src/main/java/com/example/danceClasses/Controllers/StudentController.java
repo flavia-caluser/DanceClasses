@@ -23,6 +23,4 @@ public class StudentController {
     public ResponseEntity<Student> addStudent(@RequestBody StudentRequestDTO studentRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addStudent(studentRequestDTO));
     }
-
-
 }
