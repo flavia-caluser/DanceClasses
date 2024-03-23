@@ -13,6 +13,9 @@ public class StudentRequestDTO {
     private String name;
     private LocalDate birthDate;
 
+    public StudentRequestDTO() {
+    }
+
     public StudentRequestDTO(String name, LocalDate birthDate) {
         this.name = name;
         this.birthDate = birthDate;
