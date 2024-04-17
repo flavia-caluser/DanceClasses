@@ -6,7 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InstructorRepository extends JpaRepository<Instructor,Long> {
-
-
-
+    Instructor findInstructorByName(String name);
 }
