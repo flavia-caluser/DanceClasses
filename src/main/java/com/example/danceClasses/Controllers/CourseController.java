@@ -30,7 +30,7 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourse(courseRequestDTO));
     }
 
-    @PostMapping("/addLesson")
+    @PostMapping("/lesson")
     public ResponseEntity<Lesson> addLesson (@RequestBody LessonRequestDTO lessonRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addLesson((lessonRequestDTO)));
     }
