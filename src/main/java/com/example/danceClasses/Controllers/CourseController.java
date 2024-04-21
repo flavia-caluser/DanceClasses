@@ -22,7 +22,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<Course> addCourse (@RequestBody CourseRequestDTO courseRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourse(courseRequestDTO));
     }

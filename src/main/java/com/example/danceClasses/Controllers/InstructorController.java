@@ -23,7 +23,7 @@ public class InstructorController {
         this.instructorService = instructorService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<Instructor> addInstructor(@RequestBody InstructorRequestDTO instructorRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(instructorService.addInstructor(instructorRequestDTO));
     }

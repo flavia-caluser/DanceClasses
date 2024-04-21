@@ -22,17 +22,17 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<Student> addStudent(@RequestBody StudentRequestDTO studentRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addStudent(studentRequestDTO));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Boolean> addAttendance(@RequestParam LocalDateTime newAttendance, @RequestParam Long studentId){
+    @PostMapping("/attendance/{studentId}")
+    public ResponseEntity<Boolean> addAttendance(@RequestParam LocalDateTime newAttendance, @PathVariable Long studentId){
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addAttendance(newAttendance, studentId));
     }
 
-    @PostMapping("/")
+    @PostMapping("/payment")
     public ResponseEntity<Boolean> addPayment(@RequestBody PaymentRequestDTO paymentRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addPayment(paymentRequestDTO));
     }
