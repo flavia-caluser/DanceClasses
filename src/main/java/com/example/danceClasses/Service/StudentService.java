@@ -51,6 +51,7 @@ public class StudentService  {
         return true;
     }
 
+    @Transactional
     public Boolean addPayment(PaymentRequestDTO paymentRequestDTO){
         Student student = studentRepository.findStudentByName(paymentRequestDTO.getStudentName());
         int numberOfPaymentsBefore = student.getPayments().size();

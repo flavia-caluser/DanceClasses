@@ -1,10 +1,13 @@
 package com.example.danceClasses.Service;
 
 import com.example.danceClasses.DTOS.CourseRequestDTO;
+import com.example.danceClasses.DTOS.LessonRequestDTO;
 import com.example.danceClasses.Entities.Course;
 import com.example.danceClasses.Entities.Instructor;
+import com.example.danceClasses.Entities.Lesson;
 import com.example.danceClasses.Repositories.CourseRepository;
 import com.example.danceClasses.Repositories.InstructorRepository;
+import com.example.danceClasses.Repositories.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,7 @@ public class CourseService {
 
     private CourseRepository courseRepository;
     private InstructorRepository instructorRepository;
+    private LessonRepository lessonRepository;
 
     @Autowired
     public CourseService(CourseRepository courseRepository) {
@@ -37,6 +41,17 @@ public class CourseService {
         newCourse.setLessons(new HashSet<>());
         newCourse.setReviews(new ArrayList<>());
         return courseRepository.save(newCourse);
+    }
+
+    @Transactional
+    public Lesson addLesson(LessonRequestDTO lessonRequestDTO){
+        Course course = courseRepository.findCourseByName(lessonRequestDTO.getCourseName());
+        Lesson newLesson = new Lesson();
+        newLesson.setName(lessonRequestDTO.getName());
+        newLesson.setCourse(course);
+        newLesson.setDate(lessonRequestDTO.getDate());
+        course.getLessons().add(newLesson);
+        return lessonRepository.save(newLesson);
     }
 
 }

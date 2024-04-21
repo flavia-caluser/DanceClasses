@@ -1,8 +1,11 @@
 package com.example.danceClasses.Controllers;
 
 import com.example.danceClasses.DTOS.CourseRequestDTO;
+import com.example.danceClasses.DTOS.LessonRequestDTO;
 import com.example.danceClasses.Entities.Course;
+import com.example.danceClasses.Entities.Lesson;
 import com.example.danceClasses.Service.CourseService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +28,10 @@ public class CourseController {
     @PostMapping("/add")
     public ResponseEntity<Course> addCourse (@RequestBody CourseRequestDTO courseRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourse(courseRequestDTO));
+    }
+
+    @PostMapping("/addLesson")
+    public ResponseEntity<Lesson> addLesson (@RequestBody LessonRequestDTO lessonRequestDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addLesson((lessonRequestDTO)));
     }
 }
