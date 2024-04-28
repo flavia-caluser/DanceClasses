@@ -3,6 +3,7 @@ package com.example.danceClasses.Entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -61,6 +62,8 @@ public class Course {
     }
 
     public Set<Instructor> getInstructors() {
+        if(instructors==null)
+            instructors=new HashSet<>();
         return instructors;
     }
 
@@ -69,6 +72,8 @@ public class Course {
     }
 
     public Set<Student> getStudents() {
+        if(students==null)
+            students=new HashSet<>();
         return students;
     }
 
@@ -77,6 +82,8 @@ public class Course {
     }
 
     public Set<Lesson> getLessons() {
+        if(lessons==null)
+            lessons=new HashSet<>();
         return lessons;
     }
 

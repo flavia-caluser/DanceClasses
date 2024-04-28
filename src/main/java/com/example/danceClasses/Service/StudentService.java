@@ -1,11 +1,12 @@
 package com.example.danceClasses.Service;
 
+import com.example.danceClasses.DTOS.AttendanceRequestDTO;
 import com.example.danceClasses.DTOS.PaymentRequestDTO;
 import com.example.danceClasses.DTOS.StudentRequestDTO;
-import com.example.danceClasses.Entities.Course;
-import com.example.danceClasses.Entities.Payment;
-import com.example.danceClasses.Entities.Student;
+import com.example.danceClasses.Entities.*;
+import com.example.danceClasses.Repositories.AttendanceRepository;
 import com.example.danceClasses.Repositories.CourseRepository;
+import com.example.danceClasses.Repositories.LessonRepository;
 import com.example.danceClasses.Repositories.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class StudentService  {
     private StudentRepository studentRepository;
     private CourseRepository courseRepository;
 
+    private LessonRepository lessonRepository;
+    private AttendanceRepository attendanceRepository;
+
     @Autowired
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -33,22 +37,21 @@ public class StudentService  {
         Student newStudent = new Student();
         newStudent.setName(studentRequestDTO.getName());
         newStudent.setBirthDate(studentRequestDTO.getBirthDate());
-        newStudent.setCourses(new HashSet<>());
-        newStudent.setAttendences(new HashSet<>());
-        newStudent.setPayments(new HashSet<>());
-        newStudent.setReviews(new ArrayList<>());
         return studentRepository.save(newStudent);
     }
 
     @Transactional
-    public Boolean addAttendance(LocalDateTime newAttendance, Long studentId){
-        Student student = studentRepository.findStudentById(studentId);
-        int numberOfAttendancesBefore = student.getAttendences().size();
-        student.getAttendences().add(newAttendance);
-        if(student.getAttendences().size()<=numberOfAttendancesBefore){
-            return false;
-        }
-        return true;
+    public Attendance addAttendance(AttendanceRequestDTO attendanceRequestDTO){
+        Student student = studentRepository.findStudentByName(attendanceRequestDTO.getStudentName());
+        Lesson lesson = lessonRepository.findByName(attendanceRequestDTO.getLessonName());
+        Attendance newAttendance = new Attendance();
+        newAttendance.setStudent(student);
+        newAttendance.setLesson(lesson);
+        newAttendance.setDate(attendanceRequestDTO.getDate());
+        student.getAttendances().add(newAttendance);
+        studentRepository.save(student);
+        lessonRepository.save(lesson);
+        return attendanceRepository.save(newAttendance);
     }
 
     @Transactional

@@ -1,9 +1,12 @@
 package com.example.danceClasses.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Lesson {
@@ -16,13 +19,14 @@ public class Lesson {
     @Column
     private String name;
 
-    @Column
-    private LocalDate date;
-
     @ManyToOne
     @JoinColumn(name = "course_id")
     @JsonBackReference("lesson-course")
     private Course course;
+
+    @OneToMany(mappedBy = "lesson",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonManagedReference("lesson-attendance")
+    private Set<Attendance> attendances;
 
     public Lesson() {
     }
@@ -44,14 +48,6 @@ public class Lesson {
         this.name = name;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public Course getCourse() {
         return course;
     }
@@ -60,13 +56,23 @@ public class Lesson {
         this.course = course;
     }
 
+    public Set<Attendance> getAttendances() {
+        if(attendances==null)
+            attendances=new HashSet<>();
+        return attendances;
+    }
+
+    public void setAttendances(Set<Attendance> attendances) {
+        this.attendances = attendances;
+    }
+
     @Override
     public String toString() {
         return "Lesson{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", date=" + date +
                 ", course=" + course +
+                ", attendances=" + attendances +
                 '}';
     }
 }

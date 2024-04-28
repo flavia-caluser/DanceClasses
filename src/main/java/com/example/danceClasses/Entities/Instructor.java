@@ -2,6 +2,7 @@ package com.example.danceClasses.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +32,9 @@ public class Instructor {
     }
 
     public Set<Course> getCourses() {
+        if(courses==null){
+            courses=new HashSet<>();
+        }
         return courses;
     }
 

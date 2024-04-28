@@ -37,9 +37,6 @@ public class CourseService {
             instructors.add(instructorRepository.findInstructorByName(name));
         }
         newCourse.setInstructors(instructors);
-        newCourse.setStudents(new HashSet<>());
-        newCourse.setLessons(new HashSet<>());
-        newCourse.setReviews(new ArrayList<>());
         return courseRepository.save(newCourse);
     }
 
@@ -49,7 +46,6 @@ public class CourseService {
         Lesson newLesson = new Lesson();
         newLesson.setName(lessonRequestDTO.getName());
         newLesson.setCourse(course);
-        newLesson.setDate(lessonRequestDTO.getDate());
         course.getLessons().add(newLesson);
         return lessonRepository.save(newLesson);
     }

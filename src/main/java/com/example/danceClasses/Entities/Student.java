@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,9 +26,6 @@ public class Student {
     @Column
     private String name;
 
-    @ElementCollection
-    private Set<LocalDateTime> attendences;
-
     @Column
     private LocalDate birthDate;
 
@@ -41,6 +39,10 @@ public class Student {
     @OneToMany(mappedBy = "student",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("review-student")
     private List<Review> reviews;
+
+    @OneToMany(mappedBy = "student",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonManagedReference("student-attendance")
+    private Set<Attendance> attendances;
 
     public Student() {
     }
@@ -63,6 +65,9 @@ public class Student {
     }
 
     public Set<Course> getCourses() {
+        if(courses==null){
+            courses=new HashSet<>();
+        }
         return courses;
     }
 
@@ -70,15 +75,12 @@ public class Student {
         this.courses = courses;
     }
 
-    public Set<LocalDateTime> getAttendences() {
-        return attendences;
-    }
 
-    public void setAttendences(Set<LocalDateTime> attendences) {
-        this.attendences = attendences;
-    }
 
     public Set<Payment> getPayments() {
+        if(payments==null){
+            payments=new HashSet<>();
+        }
         return payments;
     }
 
@@ -102,16 +104,26 @@ public class Student {
         this.birthDate = birthDate;
     }
 
+    public Set<Attendance> getAttendances() {
+        if(attendances==null)
+            attendances=new HashSet<>();
+        return attendances;
+    }
+
+    public void setAttendances(Set<Attendance> attendances) {
+        this.attendances = attendances;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", attendences=" + attendences +
                 ", birthDate=" + birthDate +
                 ", courses=" + courses +
                 ", payments=" + payments +
                 ", reviews=" + reviews +
+                ", attendances=" + attendances +
                 '}';
     }
 }

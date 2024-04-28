@@ -6,7 +6,7 @@ public class LessonRequestDTO {
 
     private String name;
     private String courseName;
-    private LocalDate date;
+
 
     public LessonRequestDTO() {
     }
@@ -27,11 +27,4 @@ public class LessonRequestDTO {
         this.courseName = courseName;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
 }
