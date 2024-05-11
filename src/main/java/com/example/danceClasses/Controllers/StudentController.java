@@ -28,15 +28,12 @@ public class StudentController {
     public ResponseEntity<Student> addStudent(@RequestBody StudentRequestDTO studentRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addStudent(studentRequestDTO));
     }
-
-    @PostMapping("/attendance")
-    public ResponseEntity<Attendance> addAttendance(@RequestBody AttendanceRequestDTO attendanceRequestDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addAttendance(attendanceRequestDTO));
+    @GetMapping("/{name}")
+    public ResponseEntity<Student> getStudentByName(@PathVariable String name){
+        return ResponseEntity.ok(studentService.getStudentByName(name));
     }
 
-    @PostMapping("/payment")
-    public ResponseEntity<Boolean> addPayment(@RequestBody PaymentRequestDTO paymentRequestDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addPayment(paymentRequestDTO));
-    }
+
+
 
 }

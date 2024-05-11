@@ -12,13 +12,15 @@ public class StudentRequestDTO {
 
     private String name;
     private LocalDate birthDate;
+    private String emailAddress;
 
     public StudentRequestDTO() {
     }
 
-    public StudentRequestDTO(String name, LocalDate birthDate) {
+    public StudentRequestDTO(String name, LocalDate birthDate, String emailAddress) {
         this.name = name;
         this.birthDate = birthDate;
+        this.emailAddress = emailAddress;
     }
 
     public String getName() {
@@ -35,5 +37,13 @@ public class StudentRequestDTO {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

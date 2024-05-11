@@ -29,6 +29,8 @@ public class Student {
     @Column
     private LocalDate birthDate;
 
+    private String emailAddress;
+
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses;
 
@@ -62,6 +64,14 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public Set<Course> getCourses() {
@@ -120,6 +130,7 @@ public class Student {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
+                ", emailAddress='" + emailAddress + '\'' +
                 ", courses=" + courses +
                 ", payments=" + payments +
                 ", reviews=" + reviews +
