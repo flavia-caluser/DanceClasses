@@ -24,18 +24,18 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    @Transactional
-    public Payment addPayment(PaymentRequestDTO paymentRequestDTO){
-        Student student = studentRepository.findStudentByName(paymentRequestDTO.getStudentName());
-        Payment newPayment = new Payment();
-        newPayment.setStudent(student);
-        newPayment.setCourse(courseRepository.findCourseByName(paymentRequestDTO.getCourseName()));
-        newPayment.setDate(paymentRequestDTO.getDate());
-        newPayment.setMethod(paymentRequestDTO.getPaymentMethod());
-        student.getPayments().add(newPayment);
-        studentRepository.save(student);
-        return paymentRepository.save(newPayment);
-    }
+//    @Transactional
+//    public Payment addPayment(PaymentRequestDTO paymentRequestDTO){
+//        Student student = studentRepository.findStudentByName(paymentRequestDTO.getStudentName());
+//        Payment newPayment = new Payment();
+//        newPayment.setStudent(student);
+//        newPayment.setCourse(courseRepository.findCourseByName(paymentRequestDTO.getCourseName()));
+//        newPayment.setDate(paymentRequestDTO.getDate());
+//        newPayment.setMethod(paymentRequestDTO.getPaymentMethod());
+//        student.getPayments().add(newPayment);
+//        studentRepository.save(student);
+//        return paymentRepository.save(newPayment);
+//    }
 
     public List<Payment> getAllByStudentId(Long studentId){
         return paymentRepository.findAllByStudentId(studentId);

@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,6 +21,12 @@ public class Lesson {
     @Column
     private String name;
 
+    //TODO
+    //de afaugat un localdatetime cu data si ora lectiei *
+
+    @Column
+    private LocalDateTime dateAndTime;
+
     @ManyToOne
     @JoinColumn(name = "course_id")
     @JsonBackReference("lesson-course")
@@ -28,9 +36,28 @@ public class Lesson {
     @JsonManagedReference("lesson-attendance")
     private Set<Attendance> attendances;
 
+    @OneToMany(mappedBy = "lesson",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonManagedReference("lesson-lessonPayment")
+    private List<LessonPayment> LessonPaymentList;
+
     public Lesson() {
     }
 
+    public LocalDateTime getDateAndTime() {
+        return dateAndTime;
+    }
+
+    public void setDateAndTime(LocalDateTime dateAndTime) {
+        this.dateAndTime = dateAndTime;
+    }
+
+    public List<LessonPayment> getLessonPaymentList() {
+        return LessonPaymentList;
+    }
+
+    public void setLessonPaymentList(List<LessonPayment> lessonPaymentList) {
+        LessonPaymentList = lessonPaymentList;
+    }
 
     public Long getId() {
         return id;

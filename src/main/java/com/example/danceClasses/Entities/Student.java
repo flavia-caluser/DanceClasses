@@ -46,9 +46,19 @@ public class Student {
     @JsonManagedReference("student-attendance")
     private Set<Attendance> attendances;
 
+    @OneToOne(mappedBy = "student")
+    private LessonPayment lessonPayment;
+
     public Student() {
     }
 
+    public LessonPayment getLessonPayment() {
+        return lessonPayment;
+    }
+
+    public void setLessonPayment(LessonPayment lessonPayment) {
+        this.lessonPayment = lessonPayment;
+    }
 
     public Long getId() {
         return id;
@@ -135,6 +145,7 @@ public class Student {
                 ", payments=" + payments +
                 ", reviews=" + reviews +
                 ", attendances=" + attendances +
+                ", lessonPayment=" + lessonPayment +
                 '}';
     }
 }

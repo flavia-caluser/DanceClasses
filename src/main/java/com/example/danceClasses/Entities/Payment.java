@@ -1,10 +1,12 @@
 package com.example.danceClasses.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Payment {
@@ -21,10 +23,15 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentMethod method;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    @JsonBackReference("payment-student")
-    private Student student;
+    //TODO
+    // de modificat relatia intre payment si lesson sa fie many t many
+    //in tabelul de legatura vom pune bineinteles payment, lesson, dar si student , asa ca student nu va mai fi in payment
+    //si atunci nu mai avem legatura intre paymet si course
+
+
+    @OneToMany(mappedBy = "payment",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonManagedReference("payment-lessonPayment")
+    private List<LessonPayment> LessonPaymentList;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -34,6 +41,13 @@ public class Payment {
     public Payment() {
     }
 
+    public List<LessonPayment> getLessonPaymentList() {
+        return LessonPaymentList;
+    }
+
+    public void setLessonPaymentList(List<LessonPayment> lessonPaymentList) {
+        LessonPaymentList = lessonPaymentList;
+    }
 
     public Long getId() {
         return id;
@@ -59,14 +73,6 @@ public class Payment {
         this.method = method;
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
     public Course getCourse() {
         return course;
     }
@@ -81,7 +87,6 @@ public class Payment {
                 "id=" + id +
                 ", date=" + date +
                 ", method=" + method +
-                ", student=" + student +
                 ", course=" + course +
                 '}';
     }

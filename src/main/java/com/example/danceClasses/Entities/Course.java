@@ -3,6 +3,7 @@ package com.example.danceClasses.Entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,16 @@ public class Course {
 
     @Column
     private String name;
+
+    //TODO
+    //de adaugat start date ca si coloana (care va coincide cu data primei lectii din curs) si end date*
+    // de adaugat functionalitate in controller pentru modificarea start date sau end date?
+
+    @Column
+    private LocalDateTime startDate;
+
+    @Column
+    private LocalDateTime endDate;
 
     @ManyToMany
     @JoinTable(
@@ -43,6 +54,22 @@ public class Course {
     private List<Review> reviews;
 
     public Course() {
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public Long getId() {
@@ -104,6 +131,8 @@ public class Course {
         return "Course{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", instructors=" + instructors +
                 ", students=" + students +
                 ", lessons=" + lessons +
