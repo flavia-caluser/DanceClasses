@@ -1,15 +1,19 @@
 package com.example.danceClasses.DTOS;
 
+import com.example.danceClasses.Entities.Lesson;
+import com.example.danceClasses.Entities.LessonPayment;
 import com.example.danceClasses.Entities.PaymentMethod;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class PaymentRequestDTO {
 
     private LocalDate date;
-    private String studentName;
+
     private PaymentMethod paymentMethod;
-    private String courseName;
+
+    private List<LessonPaymentsRequestDTO> lessonPaymentsRequestDTOList;
 
     public PaymentRequestDTO() {
     }
@@ -22,13 +26,6 @@ public class PaymentRequestDTO {
         this.date = date;
     }
 
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
 
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
@@ -38,11 +35,11 @@ public class PaymentRequestDTO {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public List<LessonPaymentsRequestDTO> getLessonPaymentsRequestDTOList() {
+        return lessonPaymentsRequestDTOList;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setLessonPaymentsRequestDTOList(List<LessonPaymentsRequestDTO> lessonPaymentsRequestDTOList) {
+        this.lessonPaymentsRequestDTOList = lessonPaymentsRequestDTOList;
     }
 }

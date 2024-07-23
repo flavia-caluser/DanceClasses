@@ -11,6 +11,8 @@ import com.example.danceClasses.Repositories.CourseRepository;
 import com.example.danceClasses.Repositories.InstructorRepository;
 import com.example.danceClasses.Repositories.LessonRepository;
 import com.example.danceClasses.Repositories.StudentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +21,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.example.danceClasses.Mapper.CourseMapper.fromCourseToResponseDTO;
 
 @Service
 public class CourseService {
+    private static final Logger logger = LoggerFactory.getLogger(CourseService.class);
 
     private CourseRepository courseRepository;
     private InstructorRepository instructorRepository;
@@ -40,6 +46,7 @@ public class CourseService {
         Set<Instructor> instructors = new HashSet<>();
         for(String name: courseRequestDTO.getInstructorsNames()){
             instructors.add(instructorRepository.findInstructorByName(name));
+            logger.info("Instructor {} has been added successfully.",name);
         }
         newCourse.setInstructors(instructors);
         return courseRepository.save(newCourse);
@@ -51,15 +58,17 @@ public class CourseService {
         Lesson newLesson = new Lesson();
         newLesson.setName(lessonRequestDTO.getName());
         newLesson.setCourse(course);
+        newLesson.setDateAndTime(lessonRequestDTO.getDateAndTime());
         course.getLessons().add(newLesson);
         return lessonRepository.save(newLesson);
     }
 
     //TO DO: mapper de la course la courseResponseDTO
-//    public List<Course> getAllCourses() {
-//        List<Course> coursesList = courseRepository.findAll();
-//        coursesList.stream()
-//                .map(course->)
-//    }
+    public List<CourseResponseDTO> getAllCourses() {
+        List<Course> coursesList = courseRepository.findAll();
+       return coursesList.stream()
+                .map(course->fromCourseToResponseDTO(course))
+                .collect(Collectors.toList());
+    }
 
 }

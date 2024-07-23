@@ -3,17 +3,15 @@ package com.example.danceClasses.DTOS;
 import com.example.danceClasses.Entities.Instructor;
 
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class CourseRequestDTO {
 
     private String name;
     private Set<String> instructorsNames;
-
-
-    public CourseRequestDTO(String name) {
-        this.name = name;
-    }
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     public String getName() {
         return name;
@@ -29,6 +27,22 @@ public class CourseRequestDTO {
 
     public void setInstructorsNames(Set<String> instructorsNames) {
         this.instructorsNames = instructorsNames;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public CourseRequestDTO() {

@@ -34,9 +34,6 @@ public class Student {
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses;
 
-    @OneToMany(mappedBy = "student",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonManagedReference("payment-student")
-    private Set<Payment> payments;
 
     @OneToMany(mappedBy = "student",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("review-student")
@@ -95,19 +92,6 @@ public class Student {
         this.courses = courses;
     }
 
-
-
-    public Set<Payment> getPayments() {
-        if(payments==null){
-            payments=new HashSet<>();
-        }
-        return payments;
-    }
-
-    public void setPayments(Set<Payment> payments) {
-        this.payments = payments;
-    }
-
     public List<Review> getReviews() {
         return reviews;
     }
@@ -142,7 +126,6 @@ public class Student {
                 ", birthDate=" + birthDate +
                 ", emailAddress='" + emailAddress + '\'' +
                 ", courses=" + courses +
-                ", payments=" + payments +
                 ", reviews=" + reviews +
                 ", attendances=" + attendances +
                 ", lessonPayment=" + lessonPayment +

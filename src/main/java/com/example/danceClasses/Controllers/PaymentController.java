@@ -25,13 +25,13 @@ public class PaymentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.addPayment(paymentRequestDTO));
     }
 
-    @GetMapping("/all/{studentId}")
-    public ResponseEntity<List<Payment>> getAllByStudentId(@PathVariable Long studentId){
-        return ResponseEntity.ok(paymentService.getAllByStudentId(studentId));
+    @GetMapping("/all/{studentName}")
+    public ResponseEntity<List<Payment>> getAllByStudentId(@PathVariable String studentName){
+        return ResponseEntity.ok(paymentService.getAllByStudentName(studentName));
     }
 
-    @GetMapping("/last/{studentId}")
-    public ResponseEntity<Payment> getLastPaymentByStudentId(@PathVariable Long studentId){
-        return ResponseEntity.ok(paymentService.getLastPaymentByStudentId(studentId));
+    @GetMapping("/last/{studentName}")
+    public ResponseEntity<Payment> getLastPaymentByStudentName(@PathVariable String studentName){
+        return ResponseEntity.ok(paymentService.getLastPaymentByStudentName(studentName));
     }
 }

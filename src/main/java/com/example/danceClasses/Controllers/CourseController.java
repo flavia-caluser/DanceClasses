@@ -1,6 +1,7 @@
 package com.example.danceClasses.Controllers;
 import java.util.List;
 import com.example.danceClasses.DTOS.CourseRequestDTO;
+import com.example.danceClasses.DTOS.CourseResponseDTO;
 import com.example.danceClasses.DTOS.LessonRequestDTO;
 import com.example.danceClasses.Entities.Course;
 import com.example.danceClasses.Entities.Lesson;
@@ -10,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/course")
 public class CourseController {
 
@@ -43,8 +41,8 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addLesson((lessonRequestDTO)));
     }
 
-//    @GetMapping("/all")
-//    public ResponseEntity<List<Course>> getAllCourses(){
-//        return Response
-//    }
+    @GetMapping("/all")
+    public ResponseEntity<List<CourseResponseDTO>> getAllCourses(){
+        return ResponseEntity.ok(courseService.getAllCourses());
+    }
 }

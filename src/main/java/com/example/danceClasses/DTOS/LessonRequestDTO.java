@@ -1,11 +1,14 @@
 package com.example.danceClasses.DTOS;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class LessonRequestDTO {
 
     private String name;
     private String courseName;
+
+    private LocalDateTime dateAndTime;
 
 
     public LessonRequestDTO() {
@@ -27,4 +30,11 @@ public class LessonRequestDTO {
         this.courseName = courseName;
     }
 
+    public LocalDateTime getDateAndTime() {
+        return dateAndTime;
+    }
+
+    public void setDateAndTime(LocalDateTime dateAndTime) {
+        this.dateAndTime = dateAndTime;
+    }
 }

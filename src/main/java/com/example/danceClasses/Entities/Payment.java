@@ -31,22 +31,17 @@ public class Payment {
 
     @OneToMany(mappedBy = "payment",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("payment-lessonPayment")
-    private List<LessonPayment> LessonPaymentList;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    @JsonBackReference("payment-course")
-    private Course course;
+    private List<LessonPayment> lessonPaymentList;
 
     public Payment() {
     }
 
     public List<LessonPayment> getLessonPaymentList() {
-        return LessonPaymentList;
+        return lessonPaymentList;
     }
 
     public void setLessonPaymentList(List<LessonPayment> lessonPaymentList) {
-        LessonPaymentList = lessonPaymentList;
+        lessonPaymentList = lessonPaymentList;
     }
 
     public Long getId() {
@@ -73,13 +68,7 @@ public class Payment {
         this.method = method;
     }
 
-    public Course getCourse() {
-        return course;
-    }
 
-    public void setCourse(Course course) {
-        this.course = course;
-    }
 
     @Override
     public String toString() {
@@ -87,7 +76,6 @@ public class Payment {
                 "id=" + id +
                 ", date=" + date +
                 ", method=" + method +
-                ", course=" + course +
                 '}';
     }
 }
