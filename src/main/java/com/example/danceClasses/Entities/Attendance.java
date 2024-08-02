@@ -9,11 +9,10 @@ import java.time.LocalDateTime;
 public class Attendance {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
 
-    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
@@ -36,14 +35,6 @@ public class Attendance {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
     public Student getStudent() {
         return student;
     }
@@ -64,7 +55,6 @@ public class Attendance {
     public String toString() {
         return "Attendance{" +
                 "id=" + id +
-                ", date=" + date +
                 ", student=" + student +
                 ", lesson=" + lesson +
                 '}';

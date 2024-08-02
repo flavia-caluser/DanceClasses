@@ -32,11 +32,17 @@ public class CourseService {
     private CourseRepository courseRepository;
     private InstructorRepository instructorRepository;
     private LessonRepository lessonRepository;
-    private StudentRepository studentRepository;
+
 
     @Autowired
     public CourseService(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
+    }
+
+    public CourseService(CourseRepository courseRepository, InstructorRepository instructorRepository, LessonRepository lessonRepository) {
+        this.courseRepository = courseRepository;
+        this.instructorRepository = instructorRepository;
+        this.lessonRepository = lessonRepository;
     }
 
     @Transactional

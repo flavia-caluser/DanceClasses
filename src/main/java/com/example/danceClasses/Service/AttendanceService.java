@@ -31,7 +31,6 @@ public class AttendanceService {
         Attendance newAttendance = new Attendance();
         newAttendance.setStudent(student);
         newAttendance.setLesson(lesson);
-        newAttendance.setDate(attendanceRequestDTO.getDate());
         student.getAttendances().add(newAttendance);
         studentRepository.save(student);
         lessonRepository.save(lesson);
