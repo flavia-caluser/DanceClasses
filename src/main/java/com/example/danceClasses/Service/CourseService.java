@@ -27,18 +27,13 @@ import static com.example.danceClasses.Mapper.CourseMapper.fromCourseToResponseD
 
 @Service
 public class CourseService {
-    private static final Logger logger = LoggerFactory.getLogger(CourseService.class);
+//    private static final Logger logger = LoggerFactory.getLogger(CourseService.class);
 
-    private CourseRepository courseRepository;
-    private InstructorRepository instructorRepository;
-    private LessonRepository lessonRepository;
-
+    private final CourseRepository courseRepository;
+    private final InstructorRepository instructorRepository;
+    private final LessonRepository lessonRepository;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
-    }
-
     public CourseService(CourseRepository courseRepository, InstructorRepository instructorRepository, LessonRepository lessonRepository) {
         this.courseRepository = courseRepository;
         this.instructorRepository = instructorRepository;
@@ -52,9 +47,11 @@ public class CourseService {
         Set<Instructor> instructors = new HashSet<>();
         for(String name: courseRequestDTO.getInstructorsNames()){
             instructors.add(instructorRepository.findInstructorByName(name));
-            logger.info("Instructor {} has been added successfully.",name);
+//            logger.info("Instructor {} has been added successfully.",name);
         }
         newCourse.setInstructors(instructors);
+        newCourse.setStartDate(courseRequestDTO.getStartDate());
+        newCourse.setEndDate(courseRequestDTO.getEndDate());
         return courseRepository.save(newCourse);
     }
 

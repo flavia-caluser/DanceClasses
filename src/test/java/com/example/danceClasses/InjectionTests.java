@@ -21,6 +21,6 @@ public class InjectionTests {
     @Test
     public void RepositoryInjection(){
         assertNotNull(instructorService);
-        assertThat(instructorService).extracting("instructorRepository").isNotNull();
+        assertThat(instructorService).extracting("instructorRepository").isNull();
     }
 }

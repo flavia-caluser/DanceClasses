@@ -1,5 +1,6 @@
 package com.example.danceClasses.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -17,6 +18,7 @@ public class Instructor {
     @Column
     private String name;
     @ManyToMany(mappedBy = "instructors")
+    @JsonBackReference
     private Set<Course> courses;
 
 
