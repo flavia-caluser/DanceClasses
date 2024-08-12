@@ -1,5 +1,6 @@
 package com.example.danceClasses.Controllers;
 
+import com.example.danceClasses.DTOS.LessonPaymentRequestDTO;
 import com.example.danceClasses.DTOS.PaymentRequestDTO;
 import com.example.danceClasses.Entities.Payment;
 import com.example.danceClasses.Service.PaymentService;
@@ -20,7 +21,7 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addPayment")
     public ResponseEntity<Payment> addPayment(@RequestBody PaymentRequestDTO paymentRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.addPayment(paymentRequestDTO));
     }
@@ -33,5 +34,11 @@ public class PaymentController {
     @GetMapping("/last/{studentName}")
     public ResponseEntity<Payment> getLastPaymentByStudentName(@PathVariable String studentName){
         return ResponseEntity.ok(paymentService.getLastPaymentByStudentName(studentName));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePayment (@PathVariable Long id){
+        paymentService.deletePayment(id);
+        return ResponseEntity.noContent().build();
     }
 }

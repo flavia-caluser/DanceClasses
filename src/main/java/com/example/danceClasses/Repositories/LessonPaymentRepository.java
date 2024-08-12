@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface LessonPaymentRepository extends JpaRepository<LessonPayment, Long> {
     List<LessonPayment> findAllByStudentName(String name);
+
 }

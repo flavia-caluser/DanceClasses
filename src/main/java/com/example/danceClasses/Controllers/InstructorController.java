@@ -30,4 +30,17 @@ public class InstructorController {
     public ResponseEntity<Instructor> findInstructorByName(@PathVariable String name){
         return ResponseEntity.ok(instructorService.findInstructorByName(name));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteInstructor(@PathVariable Long id){
+        instructorService.deleteInstructor(id);
+        return ResponseEntity.noContent().build();
+    }
+    //TODO: de modificat functionalitatea changeEmail cu id in loc de numele instructorului
+
+    @PutMapping("/changeEmail/{id}")
+    public ResponseEntity<Instructor> changeEmailAddress(@PathVariable Long id, @RequestBody String newEmail){
+        instructorService.changeEmailAddress(id, newEmail);
+        return ResponseEntity.ok(instructorService.changeEmailAddress(id,newEmail));
+    }
 }

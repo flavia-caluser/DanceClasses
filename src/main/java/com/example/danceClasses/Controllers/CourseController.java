@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/course")
 public class CourseController {
 
+    //TODO: de adaugat functionalitate de schimbare a numelui unui curs
+    // (pt situatiile in care o grupa de incep devine inter etc, ca sa nu creez un curs de la 0)
+    // DELETE REQUESTS PT TOATE CONTROLLER-ELE
+
     //TODO functionalitati extra
     //mail de hai la curs sa iti sarbatoresti ziua de nastere - cronjob care ruleaza o data pe zi
     //mail de anunt "urmeaza sa achiti". Exemplu: a achitat deja 3 lectii, dar in cursul la care vine mai urmeaza lectii asa ca iil anuntam ca va trebui sa achite incepand de la urmatoarea lectie
@@ -36,13 +40,31 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourse(courseRequestDTO));
     }
 
-    @PostMapping("/lesson")
+    @PostMapping("/addLesson")
     public ResponseEntity<Lesson> addLesson (@RequestBody LessonRequestDTO lessonRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addLesson((lessonRequestDTO)));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/getAll")
     public ResponseEntity<List<CourseResponseDTO>> getAllCourses(){
         return ResponseEntity.ok(courseService.getAllCourses());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long id){
+        courseService.deleteCourse(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/deleteLesson/{id}")
+    public ResponseEntity<Void> deleteLesson(@PathVariable Long id){
+        courseService.deleteLesson(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/deleteReview/{id}")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long id){
+        courseService.deleteReview(id);
+        return ResponseEntity.noContent().build();
     }
 }

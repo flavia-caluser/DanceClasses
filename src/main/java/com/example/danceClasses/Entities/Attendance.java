@@ -24,6 +24,9 @@ public class Attendance {
     @JsonBackReference("lesson-attendance")
     private Lesson lesson;
 
+    @Column
+    private LocalDateTime dateTime;
+
     public Attendance() {
     }
 
@@ -51,12 +54,21 @@ public class Attendance {
         this.lesson = lesson;
     }
 
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime date) {
+        this.dateTime = date;
+    }
+
     @Override
     public String toString() {
         return "Attendance{" +
                 "id=" + id +
                 ", student=" + student +
                 ", lesson=" + lesson +
+                ", date=" + dateTime +
                 '}';
     }
 }

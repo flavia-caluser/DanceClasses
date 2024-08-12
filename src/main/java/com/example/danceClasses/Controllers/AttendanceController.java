@@ -15,10 +15,14 @@ import java.util.List;
 public class AttendanceController {
     private AttendanceService attendanceService;
 
+//TODO: sa verific cum sa fac sa se modifice automat id-urile
+// cand se produc stergeri in baza de date
+
     @Autowired
     public AttendanceController(AttendanceService attendanceService) {
         this.attendanceService = attendanceService;
     }
+
     @PostMapping("/add")
     public ResponseEntity<Attendance> addAttendance(@RequestBody AttendanceRequestDTO attendanceRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(attendanceService.addAttendance(attendanceRequestDTO));
@@ -27,5 +31,11 @@ public class AttendanceController {
     @GetMapping("/all/{studentId}")
     public ResponseEntity<List<Attendance>> getAllByStudentId(@PathVariable Long studentId){
         return ResponseEntity.ok(attendanceService.getAllByStudentId(studentId));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAttendance(@PathVariable Long id){
+        attendanceService.deleteAttendance(id);
+        return ResponseEntity.noContent().build();
     }
 }

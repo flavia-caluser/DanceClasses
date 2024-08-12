@@ -7,10 +7,8 @@ import com.example.danceClasses.Entities.Course;
 import com.example.danceClasses.Entities.Instructor;
 import com.example.danceClasses.Entities.Lesson;
 import com.example.danceClasses.Entities.Student;
-import com.example.danceClasses.Repositories.CourseRepository;
-import com.example.danceClasses.Repositories.InstructorRepository;
-import com.example.danceClasses.Repositories.LessonRepository;
-import com.example.danceClasses.Repositories.StudentRepository;
+import com.example.danceClasses.Exceptions.ResourceNotFoundException;
+import com.example.danceClasses.Repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +30,14 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final InstructorRepository instructorRepository;
     private final LessonRepository lessonRepository;
+    private final ReviewRepository reviewRepository;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository, InstructorRepository instructorRepository, LessonRepository lessonRepository) {
+    public CourseService(CourseRepository courseRepository, InstructorRepository instructorRepository, LessonRepository lessonRepository, ReviewRepository reviewRepository) {
         this.courseRepository = courseRepository;
         this.instructorRepository = instructorRepository;
         this.lessonRepository = lessonRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     @Transactional
@@ -66,7 +66,7 @@ public class CourseService {
         return lessonRepository.save(newLesson);
     }
 
-    //TO DO: mapper de la course la courseResponseDTO
+    //TODO: mapper de la course la courseResponseDTO
     public List<CourseResponseDTO> getAllCourses() {
         List<Course> coursesList = courseRepository.findAll();
        return coursesList.stream()
@@ -74,4 +74,21 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteCourse (Long id){
+        if(!courseRepository.existsById(id))
+            throw new ResourceNotFoundException("Course not found with id "+ id);
+        courseRepository.deleteById(id);
+    }
+
+    public void deleteLesson (Long id){
+        if(!lessonRepository.existsById(id))
+            throw new ResourceNotFoundException("Lesson not found with id "+ id);
+        lessonRepository.deleteById(id);
+    }
+
+    public void deleteReview(Long id){
+        if (!reviewRepository.existsById(id))
+            throw new ResourceNotFoundException("Review not found with id "+ id);
+        reviewRepository.deleteById(id);
+    }
 }

@@ -17,6 +17,8 @@ public class Instructor {
 
     @Column
     private String name;
+    @Column
+    private String emailAddress;
     @ManyToMany(mappedBy = "instructors")
     @JsonBackReference
     private Set<Course> courses;
@@ -52,11 +54,22 @@ public class Instructor {
         this.id = id;
     }
 
+    public String getEmailAddress() {
+        if(this.emailAddress ==null)
+            this.emailAddress = new String("");
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
     @Override
     public String toString() {
         return "Instructor{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
                 ", courses=" + courses +
                 '}';
     }

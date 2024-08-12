@@ -1,11 +1,9 @@
 package com.example.danceClasses.Service;
 
-import com.example.danceClasses.DTOS.LessonPaymentsRequestDTO;
 import com.example.danceClasses.DTOS.PaymentRequestDTO;
-import com.example.danceClasses.Entities.Course;
 import com.example.danceClasses.Entities.LessonPayment;
 import com.example.danceClasses.Entities.Payment;
-import com.example.danceClasses.Entities.Student;
+import com.example.danceClasses.Exceptions.ResourceNotFoundException;
 import com.example.danceClasses.Mapper.LessonPaymentMapper;
 import com.example.danceClasses.Repositories.LessonPaymentRepository;
 import com.example.danceClasses.Repositories.PaymentRepository;
@@ -15,22 +13,19 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PaymentService {
-    private PaymentRepository paymentRepository;
-    private StudentRepository studentRepository;
-    private CourseRepository courseRepository;
-    private LessonPaymentRepository lessonPaymentRepository;
-
-    private LessonPaymentMapper lessonPaymentMapper;
+    private final PaymentRepository paymentRepository;
+    private final LessonPaymentRepository lessonPaymentRepository;
+    private final LessonPaymentMapper lessonPaymentMapper;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, LessonPaymentRepository lessonPaymentRepository, LessonPaymentMapper lessonPaymentMapper) {
         this.paymentRepository = paymentRepository;
+        this.lessonPaymentRepository = lessonPaymentRepository;
+        this.lessonPaymentMapper = lessonPaymentMapper;
     }
 
     @Transactional
@@ -38,21 +33,29 @@ public class PaymentService {
         Payment newPayment = new Payment();
         newPayment.setDate(paymentRequestDTO.getDate());
         newPayment.setMethod(paymentRequestDTO.getPaymentMethod());
-        List<LessonPayment> list = paymentRequestDTO.getLessonPaymentsRequestDTOList().stream()
-                 .map(DTO-> lessonPaymentMapper.fromDTOToLessonPayment(DTO))
-                 .toList();
+        List<LessonPayment> list = paymentRequestDTO.getLessonPaymentRequestDTOList().stream()
+                .map(lessonPaymentMapper::fromDTOToLessonPayment)
+                .toList();
+        list.forEach(lessonPayment -> lessonPayment.setPayment(newPayment));
         newPayment.setLessonPaymentList(list);
+        lessonPaymentRepository.saveAll(list);
         return paymentRepository.save(newPayment);
     }
-    public List<Payment> getAllByStudentName(String studentName){
+
+    public List<Payment> getAllByStudentName(String studentName) {
         List<LessonPayment> lessonPaymentList = lessonPaymentRepository.findAllByStudentName(studentName);
         List<Payment> allPayments = paymentRepository.findAllByLessonPaymentList(lessonPaymentList);
         return allPayments;
     }
 
-    public Payment getLastPaymentByStudentName(String studentName){
+    public Payment getLastPaymentByStudentName(String studentName) {
         List<Payment> allPayments = getAllByStudentName(studentName);
         return allPayments.getLast();
     }
 
+    public void deletePayment(Long id) {
+        if (!paymentRepository.existsById(id))
+            throw new ResourceNotFoundException("Payment not found with id " + id);
+        paymentRepository.deleteById(id);
     }
+}

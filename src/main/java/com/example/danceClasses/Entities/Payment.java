@@ -17,7 +17,7 @@ public class Payment {
     private Long id;
 
     @Column
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -32,6 +32,13 @@ public class Payment {
     @OneToMany(mappedBy = "payment",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("payment-lessonPayment")
     private List<LessonPayment> lessonPaymentList;
+
+    public Payment(Long id, LocalDateTime date, PaymentMethod method, List<LessonPayment> lessonPaymentList) {
+        this.id = id;
+        this.date = date;
+        this.method = method;
+        this.lessonPaymentList = lessonPaymentList;
+    }
 
     public Payment() {
     }
@@ -52,11 +59,11 @@ public class Payment {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

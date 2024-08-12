@@ -1,4 +1,6 @@
 package com.example.danceClasses.Service;
+import com.example.danceClasses.Exceptions.ResourceNotFoundException;
+import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.danceClasses.DTOS.InstructorRequestDTO;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 @Service
 public class InstructorService {
@@ -35,5 +38,19 @@ public class InstructorService {
     @Transactional
     public Instructor findInstructorByName (String name){
         return instructorRepository.findInstructorByName(name);
+    }
+
+    public void deleteInstructor(Long id){
+        if(!instructorRepository.existsById(id))
+            throw new ResourceNotFoundException("Instructor not found with id " + id);
+        instructorRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Instructor changeEmailAddress(Long instructorId, String newEmail){
+        Optional<Instructor>  optional = instructorRepository.findById(instructorId);
+        Instructor instructor= optional.get();
+        instructor.setEmailAddress(newEmail);
+        return instructorRepository.save(instructor);
     }
 }

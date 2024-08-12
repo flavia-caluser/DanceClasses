@@ -1,14 +1,9 @@
 package com.example.danceClasses.DTOS;
 
-import com.example.danceClasses.Entities.Lesson;
-
-public class LessonPaymentsRequestDTO {
+public class LessonPaymentRequestDTO {
 
     private String studentName;
     private String lessonName;
-
-    public LessonPaymentsRequestDTO() {
-    }
 
     public String getStudentName() {
         return studentName;
