@@ -1,6 +1,7 @@
 package com.example.danceClasses.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,12 @@ public class Attendance {
     private LocalDateTime dateTime;
 
     public Attendance() {
+    }
+
+    public Attendance(Student student, Lesson lesson, LocalDateTime dateTime) {
+        this.student = student;
+        this.lesson = lesson;
+        this.dateTime = dateTime;
     }
 
     public Long getId() {

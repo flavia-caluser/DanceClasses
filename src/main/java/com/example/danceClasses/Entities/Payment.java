@@ -29,7 +29,7 @@ public class Payment {
     //si atunci nu mai avem legatura intre paymet si course
 
 
-    @OneToMany(mappedBy = "payment",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "payment",  cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JsonManagedReference("payment-lessonPayment")
     private List<LessonPayment> lessonPaymentList;
 
@@ -76,13 +76,13 @@ public class Payment {
     }
 
 
-
     @Override
     public String toString() {
         return "Payment{" +
                 "id=" + id +
                 ", date=" + date +
                 ", method=" + method +
+                ", lessonPaymentList=" + lessonPaymentList +
                 '}';
     }
 }

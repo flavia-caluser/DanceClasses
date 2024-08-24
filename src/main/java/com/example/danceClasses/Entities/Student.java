@@ -1,11 +1,8 @@
 package com.example.danceClasses.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,7 +28,9 @@ public class Student {
 
     private String emailAddress;
 
-    @ManyToMany(mappedBy = "students")
+
+    @ManyToMany(mappedBy = "students", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference("student-course")
     private Set<Course> courses;
 
 
@@ -43,18 +42,19 @@ public class Student {
     @JsonManagedReference("student-attendance")
     private Set<Attendance> attendances;
 
-    @OneToOne(mappedBy = "student")
-    private LessonPayment lessonPayment;
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonManagedReference("student-lessonPayment")
+    private List<LessonPayment> lessonPayments;
 
     public Student() {
     }
 
-    public LessonPayment getLessonPayment() {
-        return lessonPayment;
+    public List<LessonPayment> getLessonPayments() {
+        return lessonPayments;
     }
 
-    public void setLessonPayment(LessonPayment lessonPayment) {
-        this.lessonPayment = lessonPayment;
+    public void setLessonPayments(List<LessonPayment> lessonPayments) {
+        this.lessonPayments = lessonPayments;
     }
 
     public Long getId() {
@@ -118,17 +118,17 @@ public class Student {
         this.attendances = attendances;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", birthDate=" + birthDate +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", courses=" + courses +
-                ", reviews=" + reviews +
-                ", attendances=" + attendances +
-                ", lessonPayment=" + lessonPayment +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Student{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", birthDate=" + birthDate +
+//                ", emailAddress='" + emailAddress + '\'' +
+//                ", courses=" + courses +
+//                ", reviews=" + reviews +
+//                ", attendances=" + attendances +
+//                ", lessonPayment=" + lessonPayment +
+//                '}';
+//    }
 }

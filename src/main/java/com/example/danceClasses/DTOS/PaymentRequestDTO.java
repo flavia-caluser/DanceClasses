@@ -1,5 +1,6 @@
 package com.example.danceClasses.DTOS;
 
+import com.example.danceClasses.Entities.Lesson;
 import com.example.danceClasses.Entities.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,8 +15,10 @@ public class PaymentRequestDTO {
 
     private PaymentMethod paymentMethod;
 
-    @JsonProperty("lessonPaymentRequestDTO")
-    private List<LessonPaymentRequestDTO> lessonPaymentRequestDTOList = new ArrayList<>();
+    private List<String> lessonNameList;
+
+    public PaymentRequestDTO() {
+    }
 
     public LocalDateTime getDate() {
         return date;
@@ -34,13 +37,11 @@ public class PaymentRequestDTO {
         this.paymentMethod = paymentMethod;
     }
 
-    public List<LessonPaymentRequestDTO> getLessonPaymentRequestDTOList() {
-        if(this.lessonPaymentRequestDTOList==null)
-            this.lessonPaymentRequestDTOList =  new ArrayList<>();
-        return lessonPaymentRequestDTOList;
+    public List<String> getLessonNameList() {
+        return lessonNameList;
     }
 
-    public void setLessonPaymentRequestDTOList(List<LessonPaymentRequestDTO> lessonPaymentRequestDTOList) {
-        this.lessonPaymentRequestDTOList = lessonPaymentRequestDTOList;
+    public void setLessonNameList(List<String> lessonNameList) {
+        this.lessonNameList = lessonNameList;
     }
 }

@@ -3,10 +3,11 @@ import java.util.List;
 import com.example.danceClasses.DTOS.CourseRequestDTO;
 import com.example.danceClasses.DTOS.CourseResponseDTO;
 import com.example.danceClasses.DTOS.LessonRequestDTO;
+import com.example.danceClasses.DTOS.ReviewRequestDTO;
 import com.example.danceClasses.Entities.Course;
 import com.example.danceClasses.Entities.Lesson;
+import com.example.danceClasses.Entities.Review;
 import com.example.danceClasses.Service.CourseService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +18,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/course")
 public class CourseController {
 
-    //TODO: de adaugat functionalitate de schimbare a numelui unui curs
-    // (pt situatiile in care o grupa de incep devine inter etc, ca sa nu creez un curs de la 0)
-    // DELETE REQUESTS PT TOATE CONTROLLER-ELE
-
-    //TODO functionalitati extra
-    //mail de hai la curs sa iti sarbatoresti ziua de nastere - cronjob care ruleaza o data pe zi
-    //mail de anunt "urmeaza sa achiti". Exemplu: a achitat deja 3 lectii, dar in cursul la care vine mai urmeaza lectii asa ca iil anuntam ca va trebui sa achite incepand de la urmatoarea lectie
-        //cronjob care ruleaza o data pe zi si ia din db toti studentii care sunt in niste cursuri care rumeaza sa mai aiba lectii, dar care nu au o plata inregistrarta pentru urmatoarea lectie din curs
-    //statistica de cat am incasat pe un anumit curs
-    //statistica cati cursanti am in cursuri de incepatori/inter.avansati
+    //TODO functionalitati extra: 1.mail de hai la curs sa iti sarbatoresti ziua de nastere
+    // (sa se trimita mail-uri instructorilor: Azi e ziua de nastere a lui X, care e cursant
+    // la cursurile Y,Z,A/ SAU in fiecare luni la ora 12 sa se ruleze metoda si sa trimita mail
+    // instructorilor cu cei carora le va fi ziua in saptamana respectiva).
+    // 2.cronjob care ruleaza o data pe zi mail de anunt "urmeaza sa achiti".
+    // Exemplu: a achitat deja 3 lectii, dar in cursul la care vine mai urmeaza lectii
+    // asa ca iil anuntam ca va trebui sa achite incepand de la urmatoarea lectie
+    // cronjob care ruleaza o data pe zi si ia din db toti studentii care sunt in niste cursuri
+    // care rumeaza sa mai aiba lectii, dar care nu au o plata inregistrarta pentru urmatoarea
+    // lectie din curs
+    // statistica de cat am incasat pe un anumit curs
+    // statistica cati cursanti am in cursuri de incepatori/inter.avansati
 
     private CourseService courseService;
 
@@ -45,9 +48,29 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addLesson((lessonRequestDTO)));
     }
 
-    @GetMapping("/getAll")
+    @PostMapping("/addReview/{courseId}/{studentId}")
+    public ResponseEntity<Review> addReview(@PathVariable Long courseId, @PathVariable Long studentId, @RequestBody ReviewRequestDTO reviewRequestDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addReview(courseId, studentId, reviewRequestDTO));
+    }
+
+    @PostMapping("/addReview/{courseId}")
+    public ResponseEntity<Review> addAnonymousReview(@PathVariable Long courseId,@RequestBody ReviewRequestDTO reviewRequestDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addAnonymousReview(courseId, reviewRequestDTO));
+    }
+
+    @GetMapping("/allCourseReviews/{courseId}")
+    public ResponseEntity<List<Review>> getAllReviewsForCourse(@PathVariable Long courseId){
+        return ResponseEntity.ok(courseService.getAllReviewsForCourse(courseId));
+    }
+
+    @GetMapping("/all")
     public ResponseEntity<List<CourseResponseDTO>> getAllCourses(){
         return ResponseEntity.ok(courseService.getAllCourses());
+    }
+
+    @PutMapping("/changeName/{courseId}/{newName}")
+    public ResponseEntity<CourseResponseDTO> changeCourseName(@PathVariable Long courseId, @PathVariable String newName){
+        return ResponseEntity.ok(courseService.changeCourseName(courseId,newName));
     }
 
     @DeleteMapping("/{id}")

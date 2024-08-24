@@ -29,16 +29,15 @@ public class PaymentService {
     }
 
     @Transactional
-    public Payment addPayment(PaymentRequestDTO paymentRequestDTO) {
+    public Payment addPayment(String studentName, PaymentRequestDTO paymentRequestDTO) {
         Payment newPayment = new Payment();
         newPayment.setDate(paymentRequestDTO.getDate());
         newPayment.setMethod(paymentRequestDTO.getPaymentMethod());
-        List<LessonPayment> list = paymentRequestDTO.getLessonPaymentRequestDTOList().stream()
-                .map(lessonPaymentMapper::fromDTOToLessonPayment)
+        List<LessonPayment> list = paymentRequestDTO.getLessonNameList().stream()
+                .map(lessonName -> lessonPaymentMapper.fromLessonNameToLessonPayment(lessonName,studentName))
                 .toList();
         list.forEach(lessonPayment -> lessonPayment.setPayment(newPayment));
         newPayment.setLessonPaymentList(list);
-        lessonPaymentRepository.saveAll(list);
         return paymentRepository.save(newPayment);
     }
 

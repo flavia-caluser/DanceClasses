@@ -1,6 +1,5 @@
 package com.example.danceClasses.Controllers;
 
-import com.example.danceClasses.DTOS.AttendanceRequestDTO;
 import com.example.danceClasses.DTOS.PaymentRequestDTO;
 import com.example.danceClasses.DTOS.StudentRequestDTO;
 import com.example.danceClasses.Entities.Attendance;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -28,9 +28,18 @@ public class StudentController {
     public ResponseEntity<Student> addStudent(@RequestBody StudentRequestDTO studentRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addStudent(studentRequestDTO));
     }
-    @GetMapping("/{name}")
-    public ResponseEntity<Student> getStudentByName(@PathVariable String name){
-        return ResponseEntity.ok(studentService.getStudentByName(name));
+    @GetMapping("/{studentName}")
+    public ResponseEntity<Student> getStudentByName(@PathVariable String studentName){
+        return ResponseEntity.ok(studentService.getStudentByName(studentName));
+    }
+    @GetMapping("/courses/{studentName}")
+    public ResponseEntity<List<String>> getStudentCourses(@PathVariable String studentName){
+        return ResponseEntity.ok(studentService.getStudentCourses(studentName));
+    }
+
+    @PutMapping("/changeEmail/{studentId}")
+    public ResponseEntity<Student> changeStudentEmail(@PathVariable Long studentId, @RequestBody String newEmail){
+        return ResponseEntity.ok(studentService.changeStudentEmail(studentId, newEmail));
     }
 
 

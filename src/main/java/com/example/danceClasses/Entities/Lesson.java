@@ -93,13 +93,13 @@ public class Lesson {
         this.attendances = attendances;
     }
 
-    @Override
-    public String toString() {
-        return "Lesson{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", course=" + course +
-                ", attendances=" + attendances +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Lesson{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", course=" + course +
+//                ", attendances=" + attendances +
+//                '}';
+//    }
 }

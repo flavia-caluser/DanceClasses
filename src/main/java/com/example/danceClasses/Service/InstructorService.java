@@ -22,16 +22,13 @@ public class InstructorService {
     @Autowired
     public InstructorService(InstructorRepository instructorRepository) {
         this.instructorRepository = instructorRepository;
-        //logger.info("InstructorService has been instantiated with InstructorRepository.");
     }
 
     @Transactional
     public Instructor addInstructor (InstructorRequestDTO instructorRequestDTO){
-        //logger.info("addInstructor called with name: {}", instructorRequestDTO.getName());
         Instructor newInstructor = new Instructor();
         newInstructor.setName(instructorRequestDTO.getName());
         newInstructor.setCourses(new HashSet<>());
-        //logger.info("Instructor {} has been added successfully.", newInstructor.getName());
         return instructorRepository.save(newInstructor);
     }
 
@@ -47,7 +44,7 @@ public class InstructorService {
     }
 
     @Transactional
-    public Instructor changeEmailAddress(Long instructorId, String newEmail){
+    public Instructor changeInstructorEmail(Long instructorId, String newEmail){
         Optional<Instructor>  optional = instructorRepository.findById(instructorId);
         Instructor instructor= optional.get();
         instructor.setEmailAddress(newEmail);

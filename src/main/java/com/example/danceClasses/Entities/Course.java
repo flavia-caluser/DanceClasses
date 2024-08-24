@@ -44,6 +44,7 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name="student_id")
     )
+    @JsonManagedReference("student-course")
     private Set<Student> students;
 
     @OneToMany(mappedBy = "course",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
@@ -127,17 +128,17 @@ public class Course {
         this.reviews = reviews;
     }
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", instructors=" + instructors +
-                ", students=" + students +
-                ", lessons=" + lessons +
-                ", reviews=" + reviews +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Course{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", startDate=" + startDate +
+//                ", endDate=" + endDate +
+//                ", instructors=" + instructors +
+//                ", students=" + students +
+//                ", lessons=" + lessons +
+//                ", reviews=" + reviews +
+//                '}';
+//    }
 }

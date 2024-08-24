@@ -1,6 +1,5 @@
 package com.example.danceClasses.Service;
 
-import com.example.danceClasses.DTOS.AttendanceRequestDTO;
 import com.example.danceClasses.DTOS.PaymentRequestDTO;
 import com.example.danceClasses.DTOS.StudentRequestDTO;
 import com.example.danceClasses.Entities.*;
@@ -17,15 +16,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService  {
 
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
+    private final MailService mailService;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository,MailService mailService) {
         this.studentRepository = studentRepository;
+        this.mailService= mailService;
     }
 
     @Transactional
@@ -36,11 +38,21 @@ public class StudentService  {
         newStudent.setEmailAddress(studentRequestDTO.getEmailAddress());
         return studentRepository.save(newStudent);
     }
-    public Student getStudentByName(String name){
-        Student student = studentRepository.findStudentByName(name);
-        return student;
+    public Student getStudentByName(String name){return studentRepository.findStudentByName(name);
     }
 
+    @Transactional
+    public List<String> getStudentCourses(String studentName){
+        Student student = studentRepository.findStudentByName(studentName);
+       return student.getCourses().stream()
+                .map(Course::getName)
+                .collect(Collectors.toList());
+    }
 
-
+    @Transactional
+    public Student changeStudentEmail(Long studentId, String newEmail){
+        Student student = studentRepository.findStudentById(studentId);
+        student.setEmailAddress(newEmail);
+        return studentRepository.save(student);
+    }
 }

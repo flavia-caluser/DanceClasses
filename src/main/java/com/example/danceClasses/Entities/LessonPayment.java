@@ -11,8 +11,9 @@ public class LessonPayment {
 
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "student_id")
+    @JsonBackReference("student-lessonPayment")
     private Student student;
 
     @ManyToOne

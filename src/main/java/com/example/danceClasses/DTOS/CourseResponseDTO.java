@@ -8,7 +8,7 @@ import java.util.Set;
 public class CourseResponseDTO {
 
     private String name;
-    private Set<Instructor> instructors;
+    private Set<String> instructorsNames;
 
     private LocalDateTime startDate;
 
@@ -17,9 +17,11 @@ public class CourseResponseDTO {
     public CourseResponseDTO() {
     }
 
-    public CourseResponseDTO(String name, Set<Instructor> instructors) {
+    public CourseResponseDTO(String name, Set<String> instructorsNames, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
-        this.instructors = instructors;
+        this.instructorsNames = instructorsNames;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public String getName() {
@@ -30,12 +32,12 @@ public class CourseResponseDTO {
         this.name = name;
     }
 
-    public Set<Instructor> getInstructors() {
-        return instructors;
+    public Set<String> getInstructorsNames() {
+        return instructorsNames;
     }
 
-    public void setInstructors(Set<Instructor> instructors) {
-        this.instructors = instructors;
+    public void setInstructorsNames(Set<String> instructorsNames) {
+        this.instructorsNames = instructorsNames;
     }
 
     public LocalDateTime getStartDate() {
