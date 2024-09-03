@@ -22,12 +22,6 @@ public class CourseController {
     // (sa se trimita mail-uri instructorilor: Azi e ziua de nastere a lui X, care e cursant
     // la cursurile Y,Z,A/ SAU in fiecare luni la ora 12 sa se ruleze metoda si sa trimita mail
     // instructorilor cu cei carora le va fi ziua in saptamana respectiva).
-    // 2.cronjob care ruleaza o data pe zi mail de anunt "urmeaza sa achiti".
-    // Exemplu: a achitat deja 3 lectii, dar in cursul la care vine mai urmeaza lectii
-    // asa ca iil anuntam ca va trebui sa achite incepand de la urmatoarea lectie
-    // cronjob care ruleaza o data pe zi si ia din db toti studentii care sunt in niste cursuri
-    // care rumeaza sa mai aiba lectii, dar care nu au o plata inregistrarta pentru urmatoarea
-    // lectie din curs
     // statistica de cat am incasat pe un anumit curs
     // statistica cati cursanti am in cursuri de incepatori/inter.avansati
 
