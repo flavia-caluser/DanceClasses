@@ -1,23 +1,16 @@
 package com.example.danceClasses.Service;
 
-import com.example.danceClasses.DTOS.CourseRequestDTO;
-import com.example.danceClasses.DTOS.CourseResponseDTO;
-import com.example.danceClasses.DTOS.LessonRequestDTO;
-import com.example.danceClasses.DTOS.ReviewRequestDTO;
+import com.example.danceClasses.DTOS.*;
 import com.example.danceClasses.Entities.*;
 import com.example.danceClasses.Exceptions.ResourceNotFoundException;
 import com.example.danceClasses.Mapper.CourseMapper;
 import com.example.danceClasses.Repositories.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.danceClasses.Mapper.CourseMapper.fromCourseToResponseDTO;
@@ -45,6 +38,7 @@ public class CourseService {
     public Course addCourse(CourseRequestDTO courseRequestDTO){
         Course newCourse = new Course();
         newCourse.setName(courseRequestDTO.getName());
+        newCourse.setLessonPrice(courseRequestDTO.getLessonPrice());
         Set<Instructor> instructors = new HashSet<>();
         for(String name: courseRequestDTO.getInstructorsNames()){
             instructors.add(instructorRepository.findInstructorByName(name));
@@ -103,12 +97,64 @@ public class CourseService {
             throw new ResourceNotFoundException("The course with id "+ courseId +" has no reviews");
         return courseReviews;
     }
+    //statistica de incasari pe toate cursurile
+    //fac o lista cu toate cursurile
+    //fac o metoda de getRevenuesforCourse
+       //gasesc cursul
+       //parcurg toate lectiile lui
+       //si numar cate paymenturi s-au facut la toate lectiile
+       //numarul asta il inmultesc cu pretul pe lectie si il returnez
+    //parcurg lista si aplic metoda pentru fiecare cu datele intre care vreau sa calculeze
+    //adaug in mapa numele cursului(cheie) si suma(valoare)
+    //afisez mapa
 
+    public double getRevenuesForCourseBetweenDates(Long courseId, LocalDateTime begin, LocalDateTime end){
+        Course course = courseRepository.findCourseById(courseId);
+        double numberOfPayments = course.getLessons().stream()
+                .filter(lesson-> (lesson.getDateAndTime().isAfter(begin)&&lesson.getDateAndTime().isBefore(end)))
+                .mapToDouble(lesson->lesson.getLessonPaymentList().size())
+                .sum();
+        if (numberOfPayments==0)
+            return 0;
+        return course.getLessonPrice()*numberOfPayments;
+    }
+
+    public Map<String,Double> getAllRevenuesBetweenDates(LocalDateTime begin, LocalDateTime end){
+        List<Course> allCourses = courseRepository.findAll();
+        Map<String,Double> allRevenues = new HashMap<>();
+        for (Course course: allCourses){
+            double thisCourseRevenue = getRevenuesForCourseBetweenDates(course.getId(),begin, end);
+            allRevenues.put(course.getName(),thisCourseRevenue);
+        }
+        return allRevenues;
+    }
     public CourseResponseDTO changeCourseName(Long courseId, String newName){
         Course course = courseRepository.findCourseById(courseId);
         course.setName(newName);
         courseRepository.save(course);
         return fromCourseToResponseDTO(course);
+    }
+    public CourseResponseDTO changeCourseDates(Long courseId, DatesRequestDTO newDates){
+        Course course= courseRepository.findCourseById(courseId);
+        course.setStartDate(newDates.getStartDate());
+        course.setEndDate(newDates.getStartDate());
+        courseRepository.save(course);
+        return fromCourseToResponseDTO(course);
+    }
+
+    public CourseResponseDTO changeLessonPriceForCourse(Long courseId, Double newPrice){
+        Course course = courseRepository.findCourseById(courseId);
+        course.setLessonPrice(newPrice);
+        courseRepository.save(course);
+        return fromCourseToResponseDTO(course);
+    }
+    public void changeLessonPriceForAll(Double newPrice){
+        List<Course> allCourses = courseRepository.findAll();
+        for (Course course : allCourses) {
+            if (!Objects.equals(course.getLessonPrice(), newPrice))
+                course.setLessonPrice(newPrice);
+        }
+        courseRepository.saveAll(allCourses);
     }
 
     public void deleteCourse (Long id){

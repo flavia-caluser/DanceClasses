@@ -1,9 +1,8 @@
 package com.example.danceClasses.Controllers;
 import java.util.List;
-import com.example.danceClasses.DTOS.CourseRequestDTO;
-import com.example.danceClasses.DTOS.CourseResponseDTO;
-import com.example.danceClasses.DTOS.LessonRequestDTO;
-import com.example.danceClasses.DTOS.ReviewRequestDTO;
+import java.util.Map;
+
+import com.example.danceClasses.DTOS.*;
 import com.example.danceClasses.Entities.Course;
 import com.example.danceClasses.Entities.Lesson;
 import com.example.danceClasses.Entities.Review;
@@ -11,19 +10,17 @@ import com.example.danceClasses.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/course")
 public class CourseController {
 
-    //TODO functionalitati extra: 1.mail de hai la curs sa iti sarbatoresti ziua de nastere
-    // (sa se trimita mail-uri instructorilor: Azi e ziua de nastere a lui X, care e cursant
-    // la cursurile Y,Z,A/ SAU in fiecare luni la ora 12 sa se ruleze metoda si sa trimita mail
-    // instructorilor cu cei carora le va fi ziua in saptamana respectiva).
-    // statistica de cat am incasat pe un anumit curs
-    // statistica cati cursanti am in cursuri de incepatori/inter.avansati
+    //TODO functionalitati extra:
+    // statistica de cat am incasat pe un anumit curs(pe o perioada)
+    // si de adaugat doua functionalitati de modificare a pretului pe lectie
+    // (pentru un curs, respectiv pentru toate)
+    // si statistica pentru incasari pe toate cursurile(pe o perioada)
 
     private CourseService courseService;
 
@@ -62,9 +59,34 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
 
+    @GetMapping("/getRevenues/{courseId}")
+    public ResponseEntity<Double> getRevenuesForCourseBetweenDates(@PathVariable Long courseId, @RequestBody DatesRequestDTO datesRequestDTO){
+        return ResponseEntity.ok(courseService.getRevenuesForCourseBetweenDates(courseId,datesRequestDTO.getStartDate(), datesRequestDTO.getEndDate()));
+    }
+
+    @GetMapping("/getRevenues/forAll")
+    public ResponseEntity<Map<String,Double>> getAllRevenuesBetweenDates(@RequestBody DatesRequestDTO datesRequestDTO){
+        return ResponseEntity.ok(courseService.getAllRevenuesBetweenDates(datesRequestDTO.getStartDate(), datesRequestDTO.getEndDate()));
+    }
+
     @PutMapping("/changeName/{courseId}/{newName}")
     public ResponseEntity<CourseResponseDTO> changeCourseName(@PathVariable Long courseId, @PathVariable String newName){
         return ResponseEntity.ok(courseService.changeCourseName(courseId,newName));
+    }
+    @PutMapping("/changeDates/{courseId}")
+    public ResponseEntity<CourseResponseDTO> changeCourseDates(@PathVariable Long courseId, @RequestBody DatesRequestDTO newDates){
+        return ResponseEntity.ok(courseService.changeCourseDates(courseId, newDates));
+    }
+
+    @PutMapping("/changeLessonPrice/{courseId}")
+    public ResponseEntity<CourseResponseDTO> changeLessonPriceForCourse(@PathVariable Long courseId,@RequestBody Double newPrice){
+        return ResponseEntity.ok(courseService.changeLessonPriceForCourse(courseId, newPrice));
+    }
+
+    @PutMapping("/changeLessonPrice/all")
+    public ResponseEntity<String> changeLessonPriceForAll( @RequestBody Double newPrice){
+        courseService.changeLessonPriceForAll(newPrice);
+        return ResponseEntity.ok("Update successful");
     }
 
     @DeleteMapping("/{id}")

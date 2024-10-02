@@ -11,6 +11,8 @@ import java.util.Set;
 @Entity
 public class Course {
 
+    //TODO: sa adaug un atribut lessonPrice
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 
@@ -19,15 +21,14 @@ public class Course {
     @Column
     private String name;
 
-    //TODO
-    //de adaugat start date ca si coloana (care va coincide cu data primei lectii din curs) si end date*
-    // de adaugat functionalitate in controller pentru modificarea start date sau end date?
-
     @Column
     private LocalDateTime startDate;
 
     @Column
     private LocalDateTime endDate;
+
+    @Column
+    private Double lessonPrice;
 
     @ManyToMany
     @JoinTable(
@@ -128,7 +129,16 @@ public class Course {
         this.reviews = reviews;
     }
 
-//    @Override
+    public Double getLessonPrice() {
+        if(lessonPrice==null)
+            lessonPrice=0.00;
+        return lessonPrice;
+    }
+
+    public void setLessonPrice(Double lessonPrice) {
+        this.lessonPrice = lessonPrice;
+    }
+    //    @Override
 //    public String toString() {
 //        return "Course{" +
 //                "id=" + id +

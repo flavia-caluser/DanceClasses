@@ -27,9 +27,10 @@ public class LessonPaymentMapper {
     }
 
     @Transactional
-    public LessonPayment fromLessonNameToLessonPayment(String lessonName, String studentName) {
+    public LessonPayment fromLessonNameToLessonPayment(String lessonName, Payment payment,String studentName) {
         LessonPayment result = new LessonPayment();
-        result.setPayment(new Payment());
+        result.setPayment(payment);
+        payment.getLessonPaymentList().add(result);
         Lesson lesson = lessonRepository.findByName(lessonName);
         Student student = studentRepository.findStudentByName(studentName);
         result.setLesson(lesson);

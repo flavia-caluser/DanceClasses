@@ -9,6 +9,7 @@ public class CourseResponseDTO {
 
     private String name;
     private Set<String> instructorsNames;
+    private Double lessonPrice;
 
     private LocalDateTime startDate;
 
@@ -17,11 +18,20 @@ public class CourseResponseDTO {
     public CourseResponseDTO() {
     }
 
-    public CourseResponseDTO(String name, Set<String> instructorsNames, LocalDateTime startDate, LocalDateTime endDate) {
+    public CourseResponseDTO(String name, Set<String> instructorsNames, LocalDateTime startDate, LocalDateTime endDate,Double lessonPrice) {
         this.name = name;
         this.instructorsNames = instructorsNames;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.lessonPrice = lessonPrice;
+    }
+
+    public Double getLessonPrice() {
+        return lessonPrice;
+    }
+
+    public void setLessonPrice(Double lessonPrice) {
+        this.lessonPrice = lessonPrice;
     }
 
     public String getName() {

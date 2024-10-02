@@ -18,6 +18,7 @@ public class CourseMapper {
                 .collect(Collectors.toSet()));
         response.setEndDate(course.getEndDate());
         response.setStartDate(course.getStartDate());
+        response.setLessonPrice(course.getLessonPrice());
         return response;
     }
 

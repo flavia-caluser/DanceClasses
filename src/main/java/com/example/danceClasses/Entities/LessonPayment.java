@@ -68,13 +68,13 @@ public class LessonPayment {
         this.payment = payment;
     }
 
-    @Override
-    public String toString() {
-        return "LessonPayment{" +
-                "id=" + id +
-                ", student=" + student +
-                ", lesson=" + lesson +
-                ", payment=" + payment +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "LessonPayment{" +
+//                "id=" + id +
+//                ", student=" + student +
+//                ", lesson=" + lesson +
+//                ", payment=" + payment +
+//                '}';
+//    }
 }

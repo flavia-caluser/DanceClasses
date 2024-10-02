@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -44,11 +45,13 @@ public class Payment {
     }
 
     public List<LessonPayment> getLessonPaymentList() {
+        if(this.lessonPaymentList==null)
+            this.lessonPaymentList = new ArrayList<>();
         return lessonPaymentList;
     }
 
     public void setLessonPaymentList(List<LessonPayment> lessonPaymentList) {
-        lessonPaymentList = lessonPaymentList;
+        this.lessonPaymentList = lessonPaymentList;
     }
 
     public Long getId() {
@@ -76,13 +79,13 @@ public class Payment {
     }
 
 
-    @Override
-    public String toString() {
-        return "Payment{" +
-                "id=" + id +
-                ", date=" + date +
-                ", method=" + method +
-                ", lessonPaymentList=" + lessonPaymentList +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Payment{" +
+//                "id=" + id +
+//                ", date=" + date +
+//                ", method=" + method +
+//                ", lessonPaymentList=" + lessonPaymentList +
+//                '}';
+//    }
 }

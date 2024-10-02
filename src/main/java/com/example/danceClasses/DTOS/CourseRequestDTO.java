@@ -12,6 +12,7 @@ public class CourseRequestDTO {
     private Set<String> instructorsNames;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Double lessonPrice;
 
     public String getName() {
         return name;
@@ -43,6 +44,14 @@ public class CourseRequestDTO {
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public Double getLessonPrice() {
+        return lessonPrice;
+    }
+
+    public void setLessonPrice(Double lessonPrice) {
+        this.lessonPrice = lessonPrice;
     }
 
     public CourseRequestDTO() {
