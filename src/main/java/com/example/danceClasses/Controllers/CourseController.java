@@ -16,12 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/course")
 public class CourseController {
 
-    //TODO functionalitati extra:
-    // statistica de cat am incasat pe un anumit curs(pe o perioada)
-    // si de adaugat doua functionalitati de modificare a pretului pe lectie
-    // (pentru un curs, respectiv pentru toate)
-    // si statistica pentru incasari pe toate cursurile(pe o perioada)
-
     private CourseService courseService;
 
     @Autowired
@@ -69,21 +63,21 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getAllRevenuesBetweenDates(datesRequestDTO.getStartDate(), datesRequestDTO.getEndDate()));
     }
 
-    @PutMapping("/changeName/{courseId}/{newName}")
+    @PutMapping("/change/name/{courseId}/{newName}")
     public ResponseEntity<CourseResponseDTO> changeCourseName(@PathVariable Long courseId, @PathVariable String newName){
         return ResponseEntity.ok(courseService.changeCourseName(courseId,newName));
     }
-    @PutMapping("/changeDates/{courseId}")
+    @PutMapping("/change/dates/{courseId}")
     public ResponseEntity<CourseResponseDTO> changeCourseDates(@PathVariable Long courseId, @RequestBody DatesRequestDTO newDates){
         return ResponseEntity.ok(courseService.changeCourseDates(courseId, newDates));
     }
 
-    @PutMapping("/changeLessonPrice/{courseId}")
+    @PutMapping("/change/lessonPrice/{courseId}")
     public ResponseEntity<CourseResponseDTO> changeLessonPriceForCourse(@PathVariable Long courseId,@RequestBody Double newPrice){
         return ResponseEntity.ok(courseService.changeLessonPriceForCourse(courseId, newPrice));
     }
 
-    @PutMapping("/changeLessonPrice/all")
+    @PutMapping("/change/lessonPrice/all")
     public ResponseEntity<String> changeLessonPriceForAll( @RequestBody Double newPrice){
         courseService.changeLessonPriceForAll(newPrice);
         return ResponseEntity.ok("Update successful");
