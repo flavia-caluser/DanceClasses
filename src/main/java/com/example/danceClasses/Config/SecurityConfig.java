@@ -2,18 +2,21 @@ package com.example.danceClasses.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-
+@EnableWebSecurity
 public class SecurityConfig {
+    //TODO: sa modific response body-ul la getAttendances sa se vada si la ce curs ii fiecare prezenta
+    // / pt fiecare curs sa se afiseze cursurile(mapa)
     private static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v2
             "/v2/api-docs",
             "/swagger-resources",
             "/swagger-resources/**",
@@ -21,10 +24,10 @@ public class SecurityConfig {
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**",
-            // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
-            "/swagger-ui/**"
-            // other public endpoints of your API may be appended to this array
+            "/swagger-ui/**",
+            "/auth/**"
+
     };
 
     private Converter<Jwt, AbstractAuthenticationToken> grantedAuthoritiesExtractor() {
@@ -44,17 +47,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers(AUTH_WHITELIST).permitAll()
-                                .requestMatchers("/attendance/add/**").hasRole("instructor")
-                                .requestMatchers("/attendance/{id}").hasRole("instructor")
-                                .requestMatchers("/course/add").hasRole("instructor")
-                                .requestMatchers("/course/addLesson").hasRole("instructor")
-                                .requestMatchers("/course/addReview/**").hasRole("student")
-                                .requestMatchers("/course/getRevenues/**").hasRole("instructor")
-                                .requestMatchers("/course/change/**").hasRole("instructor")
-                                .requestMatchers("/course/{id}").hasRole("instructor")
-                                .requestMatchers("/course/deleteLesson/**").hasRole("instructor")
-                                .requestMatchers("/course/deleteReview/**").hasRole("student")
-                                .requestMatchers("/course/deleteReview/**").hasRole("student")
+                                .requestMatchers("/auth/token").permitAll()
+                                .requestMatchers("/attendance/add/**").hasRole("Instructor")
+                                .requestMatchers("/attendance/{id}").hasRole("Instructor")
+                                .requestMatchers("/course/add").hasRole("Instructor")
+                                .requestMatchers("/course/addLesson").hasRole("Instructor")
+                                .requestMatchers("/course/addReview/**").hasRole("Student")
+                                .requestMatchers("/course/getRevenues/**").hasRole("Instructor")
+                                .requestMatchers("/course/change/**").hasRole("Instructor")
+                                .requestMatchers("/course/{id}").hasRole("Instructor")
+                                .requestMatchers("/course/deleteLesson/**").hasRole("Instructor")
+                                .requestMatchers("/course/deleteReview/**").hasRole("Student")
+                                .requestMatchers("/instructor/**").hasRole("Instructor")
+                                .requestMatchers("/payment/{id}").hasRole("Instructor")
+                                .requestMatchers("/student/add").hasRole("Instructor")
+                                .requestMatchers("/student/changeEmail/**").hasRole("Instructor")
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oAuth2ResourceServerSpec -> oAuth2ResourceServerSpec

@@ -83,6 +83,7 @@ public class CourseService {
         return reviewRepository.save(newReview);
     }
 
+    @Transactional
     public List<CourseResponseDTO> getAllCourses() {
         List<Course> coursesList = courseRepository.findAll();
        return coursesList.stream()

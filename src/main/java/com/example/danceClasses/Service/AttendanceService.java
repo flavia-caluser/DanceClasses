@@ -13,7 +13,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AttendanceService {
@@ -29,10 +32,11 @@ public class AttendanceService {
         this.lessonRepository = lessonRepository;
         this.courseRepository = courseRepository;
     }
-    public Attendance findStudentAttendanceByLessonId(Long lessonId, String studentName){
+
+    public Attendance findStudentAttendanceByLessonId(Long lessonId, String studentName) {
         Student student = studentRepository.findStudentByName(studentName);
-        for (Attendance attendance:student.getAttendances()
-             ) {
+        for (Attendance attendance : student.getAttendances()
+        ) {
             if (attendance.getLesson().getId().equals(lessonId))
                 return attendance;
         }
@@ -40,13 +44,13 @@ public class AttendanceService {
     }
 
     @Transactional
-    public Attendance addAttendance(Long lessonId, String studentName){
+    public Attendance addAttendance(Long lessonId, String studentName) {
         Student student = studentRepository.findStudentByName(studentName);
         Lesson lesson = lessonRepository.findLessonById(lessonId);
         Attendance alreadyExists = findStudentAttendanceByLessonId(lessonId, studentName);
-        if(alreadyExists != null)
+        if (alreadyExists != null)
             return alreadyExists;
-        Attendance newAttendance = new Attendance(student,lesson,lesson.getDateAndTime());
+        Attendance newAttendance = new Attendance(student, lesson, lesson.getDateAndTime());
         student.getAttendances().add(newAttendance);
         Course newCourse = lesson.getCourse();
         if (!student.getCourses().contains(newCourse)) {
@@ -58,14 +62,32 @@ public class AttendanceService {
         return attendanceRepository.save(newAttendance);
     }
 
-    public List<Attendance> getAllByStudentId(Long studentId){
-        return attendanceRepository.findAllByStudentId(studentId);
+    //in mapa trebuie sa fie toate prezentele puse pe cursuri(mapa)
+    //am o lista cu toate prezentele studentului
+    //parcurg lista si le adaug pe rand pe fiecare in mapa
+    //prima data verific daca exista cursul respectiv in mapa
+    //daca nu il adaug
+    //daca da adaug direct prezenta la curs
+    //returnez mapa
+    public Map<String, List<Attendance>> getAllByStudentId(Long studentId) {
+        Map<String, List<Attendance>> allAttendancesByCourse = new HashMap<>();
+        List<Attendance> allAttendances = attendanceRepository.findAllByStudentId(studentId);
+        for (Attendance attendance : allAttendances) {
+            String courseName = attendance.getLesson().getCourse().getName();
+            if (!allAttendancesByCourse.containsKey(courseName)) {
+                List<Attendance> list = new ArrayList<>();
+                list.add(attendance);
+                allAttendancesByCourse.put(courseName, list);
+            } else
+                allAttendancesByCourse.get(courseName).add(attendance);
+        }
+        return allAttendancesByCourse;
     }
 
     @Transactional
-    public void deleteAttendance(Long id){
-        if(!attendanceRepository.existsById(id))
-            throw new ResourceNotFoundException("No attendance found with id "+ id);
+    public void deleteAttendance(Long id) {
+        if (!attendanceRepository.existsById(id))
+            throw new ResourceNotFoundException("No attendance found with id " + id);
         attendanceRepository.deleteById(id);
     }
 }

@@ -3,6 +3,7 @@ package com.example.danceClasses.Service;
 import com.example.danceClasses.DTOS.PaymentRequestDTO;
 import com.example.danceClasses.DTOS.StudentRequestDTO;
 import com.example.danceClasses.Entities.*;
+import com.example.danceClasses.Exceptions.ResourceNotFoundException;
 import com.example.danceClasses.Repositories.AttendanceRepository;
 import com.example.danceClasses.Repositories.CourseRepository;
 import com.example.danceClasses.Repositories.LessonRepository;
@@ -38,7 +39,10 @@ public class StudentService  {
         newStudent.setEmailAddress(studentRequestDTO.getEmailAddress());
         return studentRepository.save(newStudent);
     }
-    public Student getStudentByName(String name){return studentRepository.findStudentByName(name);
+    public Student getStudentByName(String name){
+        if(studentRepository.findStudentByName(name) == null)
+            throw new ResourceNotFoundException("Studentul cu numele "+ name +" nu exista in baza de date");
+        return studentRepository.findStudentByName(name);
     }
 
     @Transactional

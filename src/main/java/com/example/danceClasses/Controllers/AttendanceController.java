@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/attendance")
@@ -25,7 +26,7 @@ public class AttendanceController {
     }
 
     @GetMapping("/all/{studentId}")
-    public ResponseEntity<List<Attendance>> getAllByStudentId(@PathVariable Long studentId){
+    public ResponseEntity<Map<String,List<Attendance>>> getAllByStudentId(@PathVariable Long studentId){
         return ResponseEntity.ok(attendanceService.getAllByStudentId(studentId));
     }
 
