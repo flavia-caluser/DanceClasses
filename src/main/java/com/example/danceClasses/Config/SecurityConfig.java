@@ -15,7 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     //TODO: sa modific response body-ul la getAttendances sa se vada si la ce curs ii fiecare prezenta
-    // / pt fiecare curs sa se afiseze cursurile(mapa)
+    // pt fiecare cursant sa se afiseze cursurile(mapa)
+    // la getRevenues sa-i dau un debug
     private static final String[] AUTH_WHITELIST = {
             "/v2/api-docs",
             "/swagger-resources",
@@ -60,8 +61,10 @@ public class SecurityConfig {
                                 .requestMatchers("/course/deleteReview/**").hasRole("Student")
                                 .requestMatchers("/instructor/**").hasRole("Instructor")
                                 .requestMatchers("/payment/{id}").hasRole("Instructor")
+                                .requestMatchers("/addPayment/{studentName}").hasRole("Instructor")
                                 .requestMatchers("/student/add").hasRole("Instructor")
                                 .requestMatchers("/student/changeEmail/**").hasRole("Instructor")
+                                .requestMatchers("/course/all").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oAuth2ResourceServerSpec -> oAuth2ResourceServerSpec

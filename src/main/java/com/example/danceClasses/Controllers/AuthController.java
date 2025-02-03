@@ -28,6 +28,6 @@ public class AuthController {
 
     @GetMapping("/token")
     public ResponseEntity<String> getAccessToken(@RequestParam String username, @RequestParam String password){
-        return ResponseEntity.ok(authService.getAccessToken(username, password, false));
+        return ResponseEntity.ok(authService.getAccessToken(username, password));
     }
 }

@@ -9,10 +9,6 @@ import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
@@ -38,7 +34,10 @@ public class AuthService {
 
     @Value("${keycloak-admin.password}")
     private String adminPassword;
-    private KeycloakRoleConverter keycloakRoleConverter;
+
+    private String clientToken;
+    private long tokenExpiryTime;
+
 
     public void registerUser(UserRequestDTO userRequestDTO) {
         Keycloak keycloakAdmin = KeycloakBuilder.builder()
@@ -87,35 +86,52 @@ public class AuthService {
         userResource.roles().realmLevel().add(Collections.singletonList(role));
     }
 
-    public String getAccessToken(String username, String password, boolean isClientCredentials) {
-        Keycloak keycloak;
+    public String getAccessToken(String username, String password) {
+        Keycloak keycloakUser = KeycloakBuilder.builder()
+                .serverUrl(keycloakServerUrl)
+                .realm(realm)
+                .grantType(OAuth2Constants.PASSWORD)
+                .clientId(clientId)
+                .clientSecret(clientSecret)
+                .username(username)
+                .password(password)
+                .build();
 
-        if (isClientCredentials) {
-            // Configurare pentru client_credentials
-            keycloak = KeycloakBuilder.builder()
+        String accessToken = keycloakUser.tokenManager().getAccessTokenString();
+        return accessToken;
+    }
+
+    // Obține token-ul clientului
+    public String getClientToken() {
+        if (clientToken == null || isTokenExpired()) {
+            fetchAndStoreClientToken();
+        }
+        return clientToken;
+    }
+
+    private void fetchAndStoreClientToken() {
+        try {
+            Keycloak keycloak = KeycloakBuilder.builder()
                     .serverUrl(keycloakServerUrl)
                     .realm(realm)
                     .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                     .clientId(clientId)
                     .clientSecret(clientSecret)
                     .build();
-        } else {
-            // Configurare pentru password (autentificare utilizator)
-            keycloak = KeycloakBuilder.builder()
-                    .serverUrl(keycloakServerUrl)
-                    .realm(realm)
-                    .grantType(OAuth2Constants.PASSWORD)
-                    .clientId(clientId)
-                    .clientSecret(clientSecret)
-                    .username(username)
-                    .password(password)
-                    .build();
-        }
 
-        return keycloak.tokenManager().getAccessTokenString();
+            AccessTokenResponse tokenResponse = keycloak.tokenManager().getAccessToken();
+            clientToken = tokenResponse.getToken();
+            tokenExpiryTime = System.currentTimeMillis() + (tokenResponse.getExpiresIn() * 1000);
+        } catch (Exception e) {
+            System.err.println("Error fetching client token: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-
+    private boolean isTokenExpired() {
+        return System.currentTimeMillis() >= tokenExpiryTime;
+    }
 }
+
 
 

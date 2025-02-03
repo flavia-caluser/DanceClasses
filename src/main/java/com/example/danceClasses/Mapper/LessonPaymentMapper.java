@@ -11,6 +11,7 @@ import com.example.danceClasses.Repositories.LessonRepository;
 import com.example.danceClasses.Repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
@@ -27,15 +28,17 @@ public class LessonPaymentMapper {
     }
 
     @Transactional
-    public LessonPayment fromLessonNameToLessonPayment(String lessonName, Payment payment,String studentName) {
+    public LessonPayment fromLessonNameToLessonPayment(String lessonName, Payment payment, String studentName) {
+
+        Lesson lesson = lessonRepository.findByName(lessonName);
+        Student student = studentRepository.findStudentByName(studentName);
         LessonPayment result = new LessonPayment();
         result.setPayment(payment);
         payment.getLessonPaymentList().add(result);
-        Lesson lesson = lessonRepository.findByName(lessonName);
-        Student student = studentRepository.findStudentByName(studentName);
         result.setLesson(lesson);
         result.setStudent(student);
-       lessonPaymentRepository.save(result);
+        //lessonPaymentRepository.save(result);
         return result;
+
     }
 }

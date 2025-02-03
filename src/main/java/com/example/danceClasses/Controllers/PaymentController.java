@@ -21,10 +21,10 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-//    @PostMapping("/addPayment/{studentName}")
-//    public ResponseEntity<Payment> addPayment(@PathVariable String studentName, @RequestBody PaymentRequestDTO paymentRequestDTO){
-//        return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.addPayment(studentName, paymentRequestDTO));
-//    }
+    @PostMapping("/addPayment/{studentName}")
+    public ResponseEntity<Payment> addPayment(@PathVariable String studentName, @RequestBody PaymentRequestDTO paymentRequestDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.addPayment(studentName, paymentRequestDTO));
+    }
 
     @GetMapping("/all/{studentName}")
     public ResponseEntity<List<Payment>> getAllByStudentId(@PathVariable String studentName){
