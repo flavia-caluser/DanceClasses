@@ -14,8 +14,6 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class SwaggerConfig {
     //TODO: de facut modificari in swagger sa se inteleaga mai bine ce e de facut
-    // sa testez ca totul merge
-    // sa rezolv addPaymentul
     @Bean
     @Primary
     public OpenAPI customOpenAPI() {

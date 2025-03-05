@@ -69,8 +69,9 @@ public class AttendanceService {
     //daca nu il adaug
     //daca da adaug direct prezenta la curs
     //returnez mapa
-    public Map<String, List<Attendance>> getAllByStudentId(Long studentId) {
+    public Map<String, List<Attendance>> getAllByStudentName(String studentName) {
         Map<String, List<Attendance>> allAttendancesByCourse = new HashMap<>();
+        Long studentId = studentRepository.findStudentByName(studentName).getId();
         List<Attendance> allAttendances = attendanceRepository.findAllByStudentId(studentId);
         for (Attendance attendance : allAttendances) {
             String courseName = attendance.getLesson().getCourse().getName();

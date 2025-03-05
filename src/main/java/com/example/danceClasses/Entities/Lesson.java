@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,13 +33,13 @@ public class Lesson {
     @JsonBackReference("lesson-course")
     private Course course;
 
-    @OneToMany(mappedBy = "lesson",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "lesson",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //, orphanRemoval = true)
     @JsonManagedReference("lesson-attendance")
     private Set<Attendance> attendances;
 
-    @OneToMany(mappedBy = "lesson",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)//, orphanRemoval = true)
     @JsonManagedReference("lesson-lessonPayment")
-    private List<LessonPayment> LessonPaymentList;
+    private List<LessonPayment> lessonPaymentList;
 
     public Lesson() {
     }
@@ -52,11 +53,13 @@ public class Lesson {
     }
 
     public List<LessonPayment> getLessonPaymentList() {
-        return LessonPaymentList;
+        if(this.lessonPaymentList==null)
+            this.lessonPaymentList= new ArrayList<>();
+        return lessonPaymentList;
     }
 
     public void setLessonPaymentList(List<LessonPayment> lessonPaymentList) {
-        LessonPaymentList = lessonPaymentList;
+        this.lessonPaymentList = lessonPaymentList;
     }
 
     public Long getId() {

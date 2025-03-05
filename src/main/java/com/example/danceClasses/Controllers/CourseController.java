@@ -55,12 +55,12 @@ public class CourseController {
 
     @GetMapping("/getRevenues/{courseId}")
     public ResponseEntity<Double> getRevenuesForCourseBetweenDates(@PathVariable Long courseId, @RequestBody DatesRequestDTO datesRequestDTO){
-        return ResponseEntity.ok(courseService.getRevenuesForCourseBetweenDates(courseId,datesRequestDTO.getStartDate(), datesRequestDTO.getEndDate()));
+        return ResponseEntity.ok(courseService.getRevenuesForCourseBetweenDates(courseId,datesRequestDTO));
     }
 
     @GetMapping("/getRevenues/forAll")
     public ResponseEntity<Map<String,Double>> getAllRevenuesBetweenDates(@RequestBody DatesRequestDTO datesRequestDTO){
-        return ResponseEntity.ok(courseService.getAllRevenuesBetweenDates(datesRequestDTO.getStartDate(), datesRequestDTO.getEndDate()));
+        return ResponseEntity.ok(courseService.getAllRevenuesBetweenDates(datesRequestDTO));
     }
 
     @PutMapping("/change/name/{courseId}/{newName}")

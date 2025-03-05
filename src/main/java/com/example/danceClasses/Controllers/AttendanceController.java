@@ -25,9 +25,9 @@ public class AttendanceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(attendanceService.addAttendance(lessonId, studentName));
     }
 
-    @GetMapping("/all/{studentId}")
-    public ResponseEntity<Map<String,List<Attendance>>> getAllByStudentId(@PathVariable Long studentId){
-        return ResponseEntity.ok(attendanceService.getAllByStudentId(studentId));
+    @GetMapping("/all/{studentName}")
+    public ResponseEntity<Map<String,List<Attendance>>> getAllByStudentName(@PathVariable String studentName){
+        return ResponseEntity.ok(attendanceService.getAllByStudentName(studentName));
     }
 
     @DeleteMapping("/{id}")

@@ -69,13 +69,13 @@ public class Attendance {
         this.dateTime = date;
     }
 
-    @Override
-    public String toString() {
-        return "Attendance{" +
-                "id=" + id +
-                ", student=" + student +
-                ", lesson=" + lesson +
-                ", date=" + dateTime +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Attendance{" +
+//                "id=" + id +
+//                ", student=" + student +
+//                ", lesson=" + lesson +
+//                ", date=" + dateTime +
+//                '}';
+//    }
 }

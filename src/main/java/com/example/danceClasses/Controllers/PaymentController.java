@@ -21,7 +21,7 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    @PostMapping("/addPayment/{studentName}")
+    @PostMapping("/add/{studentName}")
     public ResponseEntity<Payment> addPayment(@PathVariable String studentName, @RequestBody PaymentRequestDTO paymentRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.addPayment(studentName, paymentRequestDTO));
     }

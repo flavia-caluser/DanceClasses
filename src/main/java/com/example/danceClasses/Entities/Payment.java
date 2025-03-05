@@ -24,15 +24,9 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentMethod method;
 
-    //TODO
-    // de modificat relatia intre payment si lesson sa fie many t many
-    //in tabelul de legatura vom pune bineinteles payment, lesson, dar si student , asa ca student nu va mai fi in payment
-    //si atunci nu mai avem legatura intre paymet si course
-
-
     @OneToMany(mappedBy = "payment",  cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JsonManagedReference("payment-lessonPayment")
-    private List<LessonPayment> lessonPaymentList;
+    private List<LessonPayment> lessonPaymentList = new ArrayList<>();
 
     public Payment(Long id, LocalDateTime date, PaymentMethod method, List<LessonPayment> lessonPaymentList) {
         this.id = id;

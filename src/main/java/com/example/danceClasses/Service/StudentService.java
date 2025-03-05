@@ -59,4 +59,10 @@ public class StudentService  {
         student.setEmailAddress(newEmail);
         return studentRepository.save(student);
     }
+
+    public void deleteStudent (Long id){
+        if(!studentRepository.existsById(id))
+            throw new ResourceNotFoundException("Student not found with id "+ id);
+        studentRepository.deleteById(id);
+    }
 }

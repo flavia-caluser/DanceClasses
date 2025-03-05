@@ -29,6 +29,7 @@ public class InstructorService {
         Instructor newInstructor = new Instructor();
         newInstructor.setName(instructorRequestDTO.getName());
         newInstructor.setCourses(new HashSet<>());
+        newInstructor.setEmailAddress(instructorRequestDTO.getEmailAddress());
         return instructorRepository.save(newInstructor);
     }
 

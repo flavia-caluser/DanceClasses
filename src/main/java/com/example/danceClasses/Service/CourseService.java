@@ -109,10 +109,10 @@ public class CourseService {
     //adaug in mapa numele cursului(cheie) si suma(valoare)
     //afisez mapa
 
-    public double getRevenuesForCourseBetweenDates(Long courseId, LocalDateTime begin, LocalDateTime end){
+    public double getRevenuesForCourseBetweenDates(Long courseId, DatesRequestDTO datesRequestDTO){
         Course course = courseRepository.findCourseById(courseId);
         double numberOfPayments = course.getLessons().stream()
-                .filter(lesson-> (lesson.getDateAndTime().isAfter(begin)&&lesson.getDateAndTime().isBefore(end)))
+                .filter(lesson-> (lesson.getDateAndTime().isAfter(datesRequestDTO.getStartDate())&&lesson.getDateAndTime().isBefore(datesRequestDTO.getEndDate())))
                 .mapToDouble(lesson->lesson.getLessonPaymentList().size())
                 .sum();
         if (numberOfPayments==0)
@@ -120,11 +120,11 @@ public class CourseService {
         return course.getLessonPrice()*numberOfPayments;
     }
 
-    public Map<String,Double> getAllRevenuesBetweenDates(LocalDateTime begin, LocalDateTime end){
+    public Map<String,Double> getAllRevenuesBetweenDates(DatesRequestDTO datesRequestDTO){
         List<Course> allCourses = courseRepository.findAll();
         Map<String,Double> allRevenues = new HashMap<>();
         for (Course course: allCourses){
-            double thisCourseRevenue = getRevenuesForCourseBetweenDates(course.getId(),begin, end);
+            double thisCourseRevenue = getRevenuesForCourseBetweenDates(course.getId(),datesRequestDTO);
             allRevenues.put(course.getName(),thisCourseRevenue);
         }
         return allRevenues;

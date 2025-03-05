@@ -17,12 +17,13 @@ public class SecurityConfig {
     //TODO: sa modific response body-ul la getAttendances sa se vada si la ce curs ii fiecare prezenta
     // pt fiecare cursant sa se afiseze cursurile(mapa)
     // la getRevenues sa-i dau un debug
+    // sa fac un mapper pt paymentResponseDTO
     private static final String[] AUTH_WHITELIST = {
             "/v2/api-docs",
             "/swagger-resources",
             "/swagger-resources/**",
             "/configuration/ui",
-            "/configuration/security",
+            "/configuration/security", 
             "/swagger-ui.html",
             "/webjars/**",
             "/v3/api-docs/**",

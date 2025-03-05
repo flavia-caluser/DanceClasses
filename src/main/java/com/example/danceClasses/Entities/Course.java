@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,7 +51,7 @@ public class Course {
 
     @OneToMany(mappedBy = "course",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("lesson-course")
-    private Set<Lesson> lessons;
+    private List<Lesson> lessons;
 
     @OneToMany(mappedBy = "course",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @JsonManagedReference("review-course")
@@ -111,13 +112,13 @@ public class Course {
         this.students = students;
     }
 
-    public Set<Lesson> getLessons() {
+    public List<Lesson> getLessons() {
         if(lessons==null)
-            lessons=new HashSet<>();
+            lessons=new ArrayList<>();
         return lessons;
     }
 
-    public void setLessons(Set<Lesson> lessons) {
+    public void setLessons(List<Lesson> lessons) {
         this.lessons = lessons;
     }
 

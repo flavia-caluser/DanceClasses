@@ -30,22 +30,22 @@ public class PaymentService {
 
     @Transactional
     public Payment addPayment(String studentName, PaymentRequestDTO paymentRequestDTO) {
+
         Payment newPayment = new Payment();
         newPayment.setDate(paymentRequestDTO.getDate());
         newPayment.setMethod(paymentRequestDTO.getPaymentMethod());
         paymentRepository.save(newPayment);
-        List<LessonPayment> list = paymentRequestDTO.getLessonNameList().stream()
-                .map(lessonName -> lessonPaymentMapper.fromLessonNameToLessonPayment(lessonName,newPayment, studentName))
-                .toList();
-        newPayment.setLessonPaymentList(list);
-        lessonPaymentRepository.saveAll(list);
+        for (String lpName:paymentRequestDTO.getLessonNameList()) {
+            LessonPayment lp = lessonPaymentMapper.fromLessonNameToLessonPayment(lpName,newPayment,studentName);
+            newPayment.getLessonPaymentList().add(lp);
+        }
         return paymentRepository.save(newPayment);
-   }
+
+    }
 
     public List<Payment> getAllByStudentName(String studentName) {
         List<LessonPayment> lessonPaymentList = lessonPaymentRepository.findAllByStudentName(studentName);
-        List<Payment> allPayments = paymentRepository.findAllByLessonPaymentList(lessonPaymentList);
-        return allPayments;
+        return paymentRepository.findAllByLessonPaymentList(lessonPaymentList);
     }
 
     public Payment getLastPaymentByStudentName(String studentName) {
