@@ -38,7 +38,7 @@ Functionalities that can be done by both types of users:
 - See all reviews of a course
 - Register
 - Authenticate
-- See the last or all payment of a student
+- See the last or all payments of a student
 
 
 ## Built with
@@ -74,12 +74,13 @@ Request body example:
   "role": "Student"
 }
 ```  
-After running the authenticate request, the client will obtain an access token that will be used in all subsequent request in order to authenticate the user and to authorize the user based on its role.
+After running this request, the client receives a token which they need to put in the authorize section from the upper right side.
+Now they have 30 minutes to access all requests based on it's role.
 
 This is an example of what should be included in the request header:
 
 ```http
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjcxMTQzMzEyfQ.dxIzsD9Bm8y_kw3MOoZ2JXIKOg--uZaA5XNtBLdGYc4Ps3nlzBFDwBJi0bEeHlCggonZ6nQ2zwCI0D5a7dXjmw
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjcxMTQzMzEyfQ.dxIzsD9Bm8y_kw3MOoZ2JXIKOg--uZaA5XNtBLdGYc4Ps3nlzBFDwBJi0bEeHlCggonZ6nQ2zwCI0D5a7dXjmw
 ```  
 
 #### Authenticate
@@ -560,7 +561,9 @@ From now on, you can use all other available endpoints, as per swagger documenta
 
 In the future, application can be extended with following:
 
-- 
+- Getting the revenues of a course between two dates 
+- Getting the revenues for all courses between two dates
+- A Q&A functionality
 
 ## Badges
 
@@ -568,4 +571,3 @@ In the future, application can be extended with following:
 ![Maintained](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
 ![GIT](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
-![JWT](https://img.shields.io/badge/json%20web%20tokens-323330?style=for-the-badge&logo=json-web-tokens&logoColor=pink)
